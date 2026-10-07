@@ -1,0 +1,2661 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#090a09">
+    <title>
+      玄签 · 梅花易数抽卡择时
+    </title>
+    <!-- 创作者为2677133851，栗子哥，2026.10.3 -->
+    <style>
+
+      @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600;700&display=swap');
+      :root {
+        --bg:#f3f8ff;
+        --paper:#14243b;
+        --muted:#62738a;
+        --gold:#3478c9;
+        --line:#1e4e7d22;
+        --red:#bb5261
+      }
+      * {
+        box-sizing:border-box
+      }
+      html {
+        scroll-behavior:smooth
+      }
+      body {
+        margin:0;
+        background:var(--bg);
+        color:var(--paper);
+        font-family:'Noto Serif SC',serif;
+        min-height:100vh;
+        overflow-x:hidden
+      }
+      body:before {
+        content:"";
+        position:fixed;
+        inset:0;
+        pointer-events:none;
+        z-index:-1;
+        background:radial-gradient(ellipse at 50% 35%,#8c704014,transparent 40%),linear-gradient(90deg,#fff0 49.95%,#ffffff08 50%,#fff0 50.05%)
+      }
+      .grain {
+        position:fixed;
+        inset:0;
+        z-index:5;
+        pointer-events:none;
+        opacity:.11;
+        background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E")
+      }
+      .wrap {
+        width:min(1220px,calc(100% - 64px));
+        margin:auto
+      }
+      .top {
+        height:78px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        border-bottom:1px solid var(--line);
+        font:11px 'DM Mono',monospace;
+        letter-spacing:.17em;
+        color:#bdb5a3
+      }
+      .brand {
+        display:flex;
+        align-items:center;
+        gap:12px
+      }
+      .seal {
+        width:25px;
+        height:25px;
+        border:1px solid var(--gold);
+        display:grid;
+        place-items:center;
+        color:var(--gold);
+        font:14px serif;
+        transform:rotate(45deg)
+      }
+      .seal span {
+        transform:rotate(-45deg)
+      }
+      .topright {
+        display:flex;
+        gap:30px;
+        align-items:center
+      }
+      .live {
+        color:#9b997e
+      }
+      .live:before {
+        content:"";
+        display:inline-block;
+        width:5px;
+        height:5px;
+        background:#9d9a70;
+        border-radius:50%;
+        margin:0 9px 1px 0;
+        box-shadow:0 0 10px #d5c887
+      }
+      .hero {
+        position:relative;
+        min-height:525px;
+        display:grid;
+        grid-template-columns:1fr 400px;
+        align-items:center;
+        padding:56px 0 50px
+      }
+      .eyebrow,.label {
+        font:10px 'DM Mono',monospace;
+        letter-spacing:.22em;
+        color:var(--gold);
+        text-transform:uppercase
+      }
+      .eyebrow {
+        display:flex;
+        gap:13px;
+        align-items:center
+      }
+      .eyebrow:before {
+        content:"";
+        height:1px;
+        width:30px;
+        background:var(--gold)
+      }
+      h1 {
+        font-weight:400;
+        font-size:clamp(62px,9vw,122px);
+        letter-spacing:.13em;
+        line-height:1.05;
+        margin:32px 0 21px;
+        position:relative
+      }
+      h1 span {
+        font-size:.26em;
+        letter-spacing:.38em;
+        color:#a8a091;
+        vertical-align:top;
+        display:inline-block;
+        margin:15px 0 0 13px;
+        writing-mode:vertical-rl
+      }
+      .sub {
+        color:#a5a095;
+        font-size:14px;
+        letter-spacing:.1em
+      }
+      .hero-foot {
+        margin-top:65px;
+        display:flex;
+        gap:25px;
+        color:#77776f;
+        font-size:11px;
+        letter-spacing:.1em
+      }
+      .hero-foot span+span:before {
+        content:"·";
+        margin-right:25px;
+        color:var(--gold)
+      }
+      .orb-wrap {
+        height:390px;
+        display:grid;
+        place-items:center;
+        position:relative
+      }
+      .orb {
+        width:310px;
+        height:310px;
+        border-radius:50%;
+        position:relative;
+        border:1px solid #c9ad7040;
+        box-shadow:0 0 60px #bc9a3310,inset 0 0 55px #bc9a330a;
+        animation:float 7s ease-in-out infinite
+      }
+      .orb:before,.orb:after {
+        content:"";
+        position:absolute;
+        border-radius:50%;
+        inset:17px;
+        border:1px solid #d3bd7130;
+        transform:rotateX(66deg) rotateZ(-25deg)
+      }
+      .orb:after {
+        inset:38px;
+        transform:rotateX(66deg) rotateZ(38deg);
+        border-color:#d3bd7120
+      }
+      .orbit {
+        position:absolute;
+        inset:-28px;
+        border:1px solid #c8a96a22;
+        border-radius:50%;
+        transform:rotateX(68deg) rotateZ(-20deg)
+      }
+      .orbit:after {
+        content:"";
+        position:absolute;
+        width:5px;
+        height:5px;
+        border-radius:50%;
+        background:var(--gold);
+        top:25px;
+        left:37px;
+        box-shadow:0 0 14px 4px #d7b96b70
+      }
+      .orb-core {
+        position:absolute;
+        inset:0;
+        display:grid;
+        place-items:center;
+        color:#ceb77e;
+        font-size:92px;
+        font-weight:400;
+        text-shadow:0 0 30px #c8a96a55
+      }
+      .orb-caption {
+        position:absolute;
+        bottom:-18px;
+        font:9px 'DM Mono',monospace;
+        letter-spacing:.25em;
+        color:#77766c
+      }
+      .side-note {
+        position:absolute;
+        right:-20px;
+        top:44%;
+        writing-mode:vertical-rl;
+        font:9px 'DM Mono',monospace;
+        color:#626258;
+        letter-spacing:.2em
+      }
+      .section-head {
+        border-top:1px solid var(--line);
+        padding-top:21px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:24px
+      }
+      .section-head small {
+        font:10px 'DM Mono',monospace;
+        color:#68685f;
+        letter-spacing:.15em
+      }
+      .input-panel {
+        display:grid;
+        grid-template-columns:1fr 260px;
+        border:1px solid #ffffff25;
+        background:#10110f;
+        padding:28px 30px 25px;
+        transition:border .3s
+      }
+      .input-panel:focus-within {
+        border-color:#c8a96a77
+      }
+      .input-panel textarea {
+        grid-column:1/-1;
+        resize:vertical;
+        min-height:96px;
+        border:0;
+        outline:0;
+        background:none;
+        color:var(--paper);
+        font:17px/1.9 'Noto Serif SC',serif;
+        letter-spacing:.04em
+      }
+      .input-panel textarea::placeholder {
+        color:#57574f
+      }
+      .input-bottom {
+        display:flex;
+        justify-content:space-between;
+        align-items:flex-end;
+        grid-column:1/-1;
+        margin-top:20px
+      }
+      .hint {
+        color:#6d6c64;
+        font-size:10px;
+        letter-spacing:.08em
+      }
+      .go {
+        background:var(--gold);
+        border:0;
+        color:#14130f;
+        padding:15px 23px;
+        font:12px 'Noto Serif SC',serif;
+        letter-spacing:.15em;
+        cursor:pointer;
+        transition:.25s;
+        display:flex;
+        align-items:center;
+        gap:23px
+      }
+      .go:hover {
+        background:#e0c481;
+        box-shadow:0 0 25px #c8a96a33;
+        transform:translateY(-2px)
+      }
+      .go i {
+        font-style:normal;
+        font-size:19px
+      }
+      .example {
+        display:flex;
+        justify-content:space-between;
+        margin-top:13px;
+        color:#68685f;
+        font-size:10px;
+        letter-spacing:.08em
+      }
+      .example button {
+        border:0;
+        background:none;
+        color:#9e9276;
+        cursor:pointer;
+        font:inherit
+      }
+      .result {
+        display:none;
+        padding:78px 0 80px;
+        animation:reveal .8s both
+      }
+      .result.show {
+        display:block
+      }
+      .result-top {
+        display:flex;
+        justify-content:space-between;
+        align-items:end;
+        margin-bottom:29px
+      }
+      .result-top h2 {
+        font-weight:400;
+        font-size:34px;
+        letter-spacing:.16em;
+        margin:12px 0 0
+      }
+      .parsed {
+        font:10px 'DM Mono',monospace;
+        color:#77766d;
+        letter-spacing:.08em
+      }
+      .grid {
+        display:grid;
+        grid-template-columns:1.2fr .8fr;
+        gap:12px
+      }
+      .card {
+        border:1px solid var(--line);
+        background:linear-gradient(145deg,#ffffff05,transparent 60%);
+        padding:27px 29px;
+        position:relative;
+        overflow:hidden;
+        transition:border-color .3s,transform .3s
+      }
+      .card:hover {
+        border-color:#c8a96a55;
+        transform:translateY(-2px)
+      }
+      .card.primary {
+        grid-row:span 2;
+        min-height:315px;
+        background:radial-gradient(ellipse at 84% 25%,#b5913020,transparent 42%),#10110f
+      }
+      .card .label {
+        color:#99917d
+      }
+      .time {
+        font-size:55px;
+        letter-spacing:.06em;
+        margin:26px 0 8px;
+        color:#e5d6b2
+      }
+      .time em {
+        font-style:normal;
+        font-size:19px;
+        color:var(--gold);
+        margin-left:8px
+      }
+      .date-line {
+        color:#88877f;
+        font:11px 'DM Mono',monospace;
+        letter-spacing:.1em
+      }
+      .recommend {
+        margin-top:37px;
+        display:flex;
+        gap:28px
+      }
+      .recommend div {
+        border-left:1px solid #c8a96a55;
+        padding-left:13px
+      }
+      .recommend strong {
+        display:block;
+        font-size:15px;
+        font-weight:400;
+        margin-bottom:5px
+      }
+      .recommend span {
+        font-size:10px;
+        color:#85847a
+      }
+      .card-title {
+        font-size:18px;
+        letter-spacing:.1em;
+        margin:16px 0 10px
+      }
+      .card-copy {
+        font-size:11px;
+        line-height:1.9;
+        color:#929087
+      }
+      .team {
+        display:flex;
+        gap:10px;
+        margin:15px 0 8px
+      }
+      .member {
+        width:48px;
+        height:48px;
+        border:1px solid #c8a96a54;
+        border-radius:50%;
+        display:grid;
+        place-items:center;
+        color:#d0b879;
+        background:#c8a96a0c;
+        font-size:17px;
+        position:relative
+      }
+      .member:after {
+        content:"";
+        position:absolute;
+        inset:-4px;
+        border:1px solid #c8a96a20;
+        border-radius:50%
+      }
+      .poem {
+        font-size:18px;
+        line-height:2;
+        letter-spacing:.13em;
+        color:#ded2b5;
+        margin:19px 0 6px
+      }
+      .poem-meta {
+        font:9px 'DM Mono',monospace;
+        color:#74736a;
+        letter-spacing:.1em
+      }
+      .footer {
+        border-top:1px solid var(--line);
+        padding:22px 0 32px;
+        display:flex;
+        justify-content:space-between;
+        color:#626158;
+        font-size:9px;
+        letter-spacing:.1em
+      }
+      .footer b {
+        font-weight:400;
+        color:#93876d
+      }
+      .toast {
+        position:fixed;
+        bottom:28px;
+        left:50%;
+        transform:translate(-50%,20px);
+        background:#d2b16e;
+        color:#17150f;
+        padding:11px 18px;
+        font-size:12px;
+        opacity:0;
+        transition:.3s;
+        pointer-events:none;
+        z-index:10
+      }
+      .toast.on {
+        opacity:1;
+        transform:translate(-50%,0)
+      }
+      .hexpanel {
+        grid-column:1/-1
+      }
+      .hexgrid {
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+        gap:10px;
+        margin:18px 0
+      }
+      .hexitem {
+        padding:14px;
+        border:1px solid #3478c933;
+        background:#fff9;
+        border-radius:10px;
+        color:#54677f;
+        font-size:11px
+      }
+      .hexname {
+        font-size:12px;
+        color:#1f4268
+      }
+      .hexsym {
+        font-size:32px;
+        color:#3478c9;
+        margin:5px 0
+      }
+      .line {
+        font:13px monospace;
+        letter-spacing:2px;
+        color:#3478c9;
+        padding:2px 0
+      }
+      .line.moving {
+        color:#bd7441;
+        font-weight:bold
+      }
+      .hexpanel .card-copy {
+        color:#54677f;
+        line-height:2
+      }
+      #dust {
+        position:absolute;
+        inset:0;
+        width:100%;
+        height:100%;
+        pointer-events:none;
+        opacity:.56
+      }
+      @keyframes float {
+        50% {
+          transform:translateY(-9px) rotate(2deg)
+        }
+      }
+      @keyframes reveal {
+        from {
+          opacity:0;
+          transform:translateY(18px)
+        }
+        to {
+          opacity:1;
+          transform:none
+        }
+      }
+      @media(max-width:760px) {
+        .wrap {
+          width:calc(100% - 38px)
+        }
+        .top {
+          height:65px
+        }
+        .topright {
+          gap:13px
+        }
+        .topright span:first-child {
+          display:none
+        }
+        .hero {
+          min-height:unset;
+          grid-template-columns:1fr;
+          padding:69px 0 54px
+        }
+        .hero-copy {
+          position:relative;
+          z-index:1
+        }
+        .orb-wrap {
+          position:absolute;
+          right:-60px;
+          top:43px;
+          width:220px;
+          height:220px;
+          opacity:.44;
+          transform:scale(.72);
+          transform-origin:top right
+        }
+        .side-note {
+          display:none
+        }
+        h1 {
+          font-size:76px;
+          margin:28px 0 16px
+        }
+        .hero-foot {
+          margin-top:42px
+        }
+        .input-panel {
+          padding:22px 19px
+        }
+        .input-panel textarea {
+          font-size:15px
+        }
+        .input-bottom {
+          align-items:center
+        }
+        .hint {
+          max-width:150px;
+          line-height:1.7
+        }
+        .go {
+          padding:13px 15px;
+          gap:12px
+        }
+        .result {
+          padding:58px 0
+        }
+        .result-top {
+          align-items:start;
+          flex-direction:column;
+          gap:13px
+        }
+        .result-top h2 {
+          font-size:28px
+        }
+        .grid {
+          grid-template-columns:1fr
+        }
+        .card.primary {
+          grid-row:auto;
+          min-height:285px
+        }
+        .time {
+          font-size:48px
+        }
+        .footer {
+          gap:10px;
+          line-height:1.8
+        }
+        .example {
+          line-height:1.7
+        }
+        .example span {
+          max-width:68%
+        }
+      }
+      @media(prefers-reduced-motion:reduce) {
+        *,*:before,*:after {
+          animation-duration:.01ms!important;
+          scroll-behavior:auto!important;
+          transition-duration:.01ms!important
+        }
+      }
+      :root {
+        --bg:#f2f7ff;
+        --paper:#172b45;
+        --muted:#61758e;
+        --gold:#397ac1;
+        --line:#244c731f
+      }
+      body {
+        background:radial-gradient(ellipse at 75% 8%,#cce2fb99,transparent 35%),radial-gradient(ellipse at 4% 54%,#deedfc99,transparent 38%),linear-gradient(145deg,#f8fbff,#eaf3ff 55%,#f6faff);
+        color:#182d48
+      }
+      body:before {
+        background-image:radial-gradient(1px 1px at 20% 30%,#5c83ad44 0,transparent 100%),radial-gradient(1px 1px at 70% 20%,#5c83ad33 0,transparent 100%),radial-gradient(1px 1px at 40% 80%,#5c83ad33 0,transparent 100%)
+      }
+      .top {
+        color:#3e5a7b;
+        border-color:#345e8522
+      }
+      .seal {
+        border-color:#397ac1;
+        color:#397ac1
+      }
+      .live {
+        color:#468462
+      }
+      .live:before {
+        background:#58a77b;
+        box-shadow:0 0 9px #58a77b66
+      }
+      .hero .sub,.hero-foot,.side-note {
+        color:#62758b
+      }
+      .orb {
+        border-color:#4e83bb55;
+        box-shadow:0 0 70px #7ba8d522,inset 0 0 55px #397ac10b
+      }
+      .orb:before,.orb:after {
+        border-color:#4e83bb44
+      }
+      .orb:after {
+        border-color:#4e83bb33
+      }
+      .orbit {
+        border-color:#4e83bb33
+      }
+      .orbit:after {
+        background:#397ac1;
+        box-shadow:0 0 14px 4px #397ac155
+      }
+      .orb-core {
+        color:#397ac1;
+        text-shadow:0 0 25px #397ac133
+      }
+      .orb-caption {
+        color:#71849a
+      }
+      .section-head {
+        border-color:#244c7322
+      }
+      .section-head small,.label {
+        color:#527398
+      }
+      .input-panel,.card {
+        background:#ffffffc9;
+        border-color:#244c7326;
+        box-shadow:0 12px 36px #37618b10
+      }
+      .input-panel:focus-within,.card:hover {
+        border-color:#397ac177
+      }
+      .card.primary {
+        background:radial-gradient(ellipse at 84% 25%,#d8e9fb,transparent 52%),#ffffffd9
+      }
+      .input-panel textarea {
+        color:#1a304a
+      }
+      .input-panel textarea::placeholder {
+        color:#8a9aab
+      }
+      .hint,.example,.card-copy,.date-line,.parsed,.poem-meta {
+        color:#667b91
+      }
+      .example button {
+        color:#397ac1
+      }
+      .go {
+        background:#397ac1;
+        color:white
+      }
+      .go:hover {
+        background:#2868ae;
+        box-shadow:0 8px 22px #397ac133
+      }
+      .time,.poem {
+        color:#244d78
+      }
+      .time em {
+        color:#397ac1
+      }
+      .recommend div {
+        border-color:#397ac166
+      }
+      .recommend span {
+        color:#708196
+      }
+      .card .label {
+        color:#617d9d
+      }
+      .card-title {
+        color:#24476d
+      }
+      .member {
+        border-color:#397ac155;
+        color:#2868ae;
+        background:#eaf3ff
+      }
+      .member:after {
+        border-color:#397ac122
+      }
+      .footer {
+        border-color:#244c7322;
+        color:#75859a
+      }
+      .footer b {
+        color:#397ac1
+      }
+      .toast {
+        background:#244d78;
+        color:#fff
+      }
+      @media(max-width:760px) {
+        .orb {
+          opacity:.3
+        }
+        .hero .sub {
+          color:#516b86
+        }
+      }
+
+    </style>
+    <style id="armillary-and-advice">
+
+      .armillary-hint {
+        font:10px 'DM Mono',monospace;
+        letter-spacing:.12em;
+        color:#6485a7;
+        position:absolute;
+        top:12px;
+        z-index:2
+      }
+      .orb-wrap {
+        perspective:900px;
+        touch-action:none;
+        cursor:grab
+      }
+      .orb-wrap:active {
+        cursor:grabbing
+      }
+      .armillary {
+        width:340px;
+        height:340px;
+        position:relative;
+        transform-style:preserve-3d;
+        transform:rotateX(-19deg) rotateY(-26deg);
+        transition:transform .08s linear;
+        user-select:none
+      }
+      .arm-sphere {
+        position:absolute;
+        inset:72px;
+        border-radius:50%;
+        border:1px solid #4d89c455;
+        background:radial-gradient(circle at 35% 30%,#fff9,#b8d5f344 50%,#7da9d21c);
+        box-shadow:inset -16px -13px 34px #5386b525,0 0 42px #6e9bc71b;
+        display:grid;
+        place-items:center
+      }
+      .arm-sphere b {
+        font:68px 'Noto Serif SC',serif;
+        color:#397ac1;
+        text-shadow:0 3px 17px #397ac133
+      }
+      .track {
+        position:absolute;
+        inset:50px 0;
+        border:1px solid #4980b955;
+        border-radius:50%;
+        transform-style:preserve-3d
+      }
+      .track i {
+        position:absolute;
+        width:8px;
+        height:8px;
+        border-radius:50%;
+        background:#397ac1;
+        top:50%;
+        left:-4px;
+        box-shadow:0 0 12px #397ac199
+      }
+      .track-a {
+        transform:rotateX(72deg) rotateY(8deg)
+      }
+      .track-b {
+        inset:24px 22px;
+        transform:rotateX(62deg) rotateY(48deg) rotateZ(18deg);
+        border-color:#72a4ce66
+      }
+      .track-b i {
+        left:50%;
+        top:-4px;
+        background:#74a76f
+      }
+      .track-c {
+        inset:18px -10px;
+        transform:rotateX(76deg) rotateY(-40deg) rotateZ(-28deg);
+        border-color:#bd9f6c70
+      }
+      .track-c i {
+        left:auto;
+        right:6%;
+        top:18%;
+        background:#c1934c
+      }
+      .track-d {
+        inset:5px 53px;
+        transform:rotateY(68deg) rotateZ(24deg);
+        border-color:#4d83b64d
+      }
+      .track-d i {
+        left:50%;
+        top:auto;
+        bottom:5%;
+        background:#7382bd
+      }
+      .armillary-axis {
+        position:absolute;
+        left:50%;
+        top:4%;
+        height:92%;
+        width:1px;
+        background:linear-gradient(transparent,#6e94b666,transparent);
+        transform:rotateZ(28deg)
+      }
+      .star {
+        position:absolute;
+        width:4px;
+        height:4px;
+        border-radius:50%;
+        background:#fff;
+        box-shadow:0 0 10px 3px #81aee899
+      }
+      .s1 {
+        top:23%;
+        left:28%
+      }
+      .s2 {
+        top:65%;
+        left:72%
+      }
+      .s3 {
+        top:42%;
+        left:78%
+      }
+      .s4 {
+        top:76%;
+        left:35%
+      }
+      .place-why {
+        margin-top:17px;
+        max-width:410px;
+        color:#627b96;
+        font-size:11px;
+        line-height:1.9
+      }
+      .member.wx-木 {
+        color:#397c58;
+        border-color:#77aa87;
+        background:#eaf7ee
+      }
+      .member.wx-火 {
+        color:#b95348;
+        border-color:#dc9183;
+        background:#fff0ec
+      }
+      .member.wx-土 {
+        color:#a27831;
+        border-color:#d4b66f;
+        background:#fbf5e5
+      }
+      .member.wx-金 {
+        color:#55738f;
+        border-color:#9db4c7;
+        background:#edf4fa
+      }
+      .member.wx-水 {
+        color:#39769d;
+        border-color:#77aec9;
+        background:#eaf6fc
+      }
+      @media(max-width:760px) {
+        .armillary {
+          width:270px;
+          height:270px;
+          transform:scale(.9) rotateX(-19deg) rotateY(-26deg)
+        }
+        .orb-wrap {
+          right:-25px;
+          top:25px;
+          opacity:.75
+        }
+        .armillary-hint {
+          top:0
+        }
+        .place-why {
+          font-size:10px
+        }
+      }
+
+    </style>
+    <style id="miku-inspired-edition">
+
+      :root {
+        --bg:#f7ffff;
+        --paper:#16334a;
+        --gold:#00aeb4;
+        --line:#1f627326
+      }
+      body {
+        background:#f7ffff;
+        color:#15334a;
+        font-family:'Noto Serif SC','PingFang SC',serif
+      }
+      body:before {
+        opacity:.58;
+        background-image:radial-gradient(1.5px 1.5px at 10% 20%,#19b8be55 0,transparent 100%),radial-gradient(2px 2px at 80% 16%,#23c1c455 0,transparent 100%),radial-gradient(1.5px 1.5px at 35% 75%,#1d86c344 0,transparent 100%),radial-gradient(1px 1px at 91% 65%,#eca9d344 0,transparent 100%)
+      }
+      .grain {
+        opacity:.035
+      }
+      .top {
+        height:74px;
+        border:0;
+        border-bottom:1px solid #1b536516;
+        background:#f7ffffe8;
+        color:#345a71;
+        backdrop-filter:blur(15px)
+      }
+      .seal {
+        border:0;
+        background:#00b7bd;
+        color:#fff;
+        transform:rotate(-8deg);
+        border-radius:7px;
+        box-shadow:0 5px 14px #00aeb433
+      }
+      .topright {
+        gap:22px
+      }
+      .site-nav {
+        display:flex;
+        gap:21px
+      }
+      .site-nav a {
+        font-size:11px;
+        text-decoration:none;
+        color:#52758a;
+        letter-spacing:.08em
+      }
+      .site-nav a:hover {
+        color:#00aeb4
+      }
+      .live {
+        color:#378c76
+      }
+      .live:before {
+        background:#42b895;
+        box-shadow:0 0 8px #42b89566
+      }
+      .hero {
+        min-height:570px;
+        padding:61px 0 62px;
+        grid-template-columns:1fr 440px
+      }
+      .hero:before {
+        content:"";
+        position:absolute;
+        z-index:-1;
+        right:3%;
+        top:9%;
+        width:420px;
+        height:420px;
+        border-radius:50%;
+        background:linear-gradient(140deg,#d2fbf4,#def2ff 64%,#fff1fb);
+        filter:blur(1px)
+      }
+      .eyebrow {
+        color:#098d9e;
+        letter-spacing:.15em
+      }
+      .eyebrow:before {
+        background:#ff87ac;
+        height:3px;
+        border-radius:3px
+      }
+      h1 {
+        font-size:clamp(70px,9.5vw,128px);
+        letter-spacing:.09em;
+        color:#17374f;
+        text-shadow:0 4px #ffffff80
+      }
+      h1 span {
+        color:#05aeb6;
+        font-size:.23em;
+        letter-spacing:.22em
+      }
+      .sub {
+        font-size:15px;
+        color:#55758b;
+        letter-spacing:.06em
+      }
+      .hero-foot {
+        gap:14px;
+        flex-wrap:wrap
+      }
+      .hero-foot span {
+        background:#fff;
+        border:1px solid #b9e8e6;
+        border-radius:99px;
+        padding:7px 12px;
+        color:#53758a
+      }
+      .hero-foot span+span:before {
+        content:none
+      }
+      .orb-wrap {
+        height:420px
+      }
+      .armillary-hint {
+        color:#238a9b
+      }
+      .arm-sphere {
+        border-color:#47c2bd66;
+        background:radial-gradient(circle at 35% 30%,#fff,#baf2ec82 48%,#83dadd44);
+        box-shadow:inset -16px -13px 34px #278eae25,0 15px 50px #24adb326
+      }
+      .arm-sphere b {
+        color:#00aeb4
+      }
+      .track-a {
+        border-color:#12aebd99
+      }
+      .track-b {
+        border-color:#558dd899
+      }
+      .track-c {
+        border-color:#e3a7bd99
+      }
+      .track-d {
+        border-color:#60b98b88
+      }
+      .track i {
+        box-shadow:0 0 12px currentColor
+      }
+      .orb-caption {
+        color:#37839a
+      }
+      #entry {
+        scroll-margin-top:90px
+      }
+      .section-head {
+        border-color:#215d721c
+      }
+      .section-head .label {
+        color:#078c9e
+      }
+      .section-head small {
+        color:#6d899b
+      }
+      .input-panel {
+        border:1px solid #b4e6e3;
+        background:#ffffffed;
+        border-radius:22px;
+        box-shadow:0 18px 55px #157b9210;
+        padding:32px 36px
+      }
+      .input-panel:focus-within {
+        border-color:#00aeb4;
+        box-shadow:0 16px 48px #00aeb41d
+      }
+      .input-panel textarea {
+        font-size:17px;
+        color:#18384d
+      }
+      .input-panel textarea::placeholder {
+        color:#8ba3ae
+      }
+      .go {
+        background:#00aeb4;
+        color:#fff;
+        border-radius:999px;
+        padding:15px 25px;
+        box-shadow:0 9px 22px #00aeb433
+      }
+      .go:hover {
+        background:#008eaa;
+        box-shadow:0 12px 25px #008eaa44
+      }
+      .hint,.example {
+        color:#6e8999
+      }
+      .example button {
+        color:#008da2
+      }
+      .result {
+        scroll-margin-top:80px
+      }
+      .result-top h2 {
+        color:#14374f
+      }
+      .card {
+        border:1px solid #c9e8e9;
+        border-radius:18px;
+        background:#ffffffed;
+        box-shadow:0 12px 36px #1457780a
+      }
+      .card:hover {
+        border-color:#58c7c5;
+        box-shadow:0 16px 35px #14577812
+      }
+      .card.primary {
+        background:radial-gradient(ellipse at 84% 25%,#d8f7f1,transparent 55%),#ffffff
+      }
+      .time {
+        color:#087d91
+      }
+      .time em {
+        color:#e56f9c
+      }
+      .recommend div {
+        border-color:#72ceca
+      }
+      .recommend strong {
+        color:#21465d
+      }
+      .recommend span,.card-copy {
+        color:#617f91
+      }
+      .card-title {
+        color:#183d56
+      }
+      .card .label {
+        color:#218b98
+      }
+      .member {
+        box-shadow:0 4px 12px #1c53610c
+      }
+      .poem {
+        color:#197d92
+      }
+      .poem-meta {
+        color:#859ba7
+      }
+      .hexitem {
+        border-color:#c2e6e4;
+        background:#f8fefe;
+        color:#557589
+      }
+      .hexname {
+        color:#1c546e
+      }
+      .hexsym,.line {
+        color:#168f9f
+      }
+      .line.moving {
+        color:#d7799b
+      }
+      .footer {
+        border-color:#215d721c;
+        color:#77909e
+      }
+      .footer b {
+        color:#00aeb4
+      }
+      .toast {
+        background:#143b55
+      }
+      @media(max-width:760px) {
+        .top {
+          height:64px
+        }
+        .site-nav {
+          gap:12px
+        }
+        .hero {
+          padding-top:54px;
+          min-height:unset
+        }
+        .hero:before {
+          width:290px;
+          height:290px;
+          right:-9%;
+          top:9%
+        }
+        .hero-foot {
+          gap:7px
+        }
+        .hero-foot span {
+          padding:6px 9px;
+          font-size:9px
+        }
+        .orb-wrap {
+          height:290px;
+          right:-23px;
+          top:45px;
+          opacity:.84
+        }
+        .input-panel {
+          border-radius:17px;
+          padding:22px 19px
+        }
+        .result {
+          padding-top:54px
+        }
+      }
+
+    </style>
+    <style id="three-casting-modes">
+
+      .mode-tabs {
+        display:flex;
+        gap:10px;
+        margin:0 0 12px
+      }
+      .mode-tab {
+        flex:1;
+        background:#fff;
+        border:1px solid #b9e5e5;
+        border-radius:14px;
+        padding:13px 16px;
+        color:#4c7186;
+        box-shadow:none;
+        text-align:left;
+        letter-spacing:.03em;
+        transition:.22s
+      }
+      .mode-tab span {
+        font:10px 'DM Mono',monospace;
+        color:#9eb4bf;
+        margin-right:10px
+      }
+      .mode-tab:hover {
+        transform:translateY(-2px);
+        background:#f0ffff;
+        border-color:#73cece;
+        box-shadow:0 7px 16px #00aeb414
+      }
+      .mode-tab.active {
+        background:#e2fbf7;
+        border-color:#00adb3;
+        color:#087e91;
+        box-shadow:inset 0 -3px #00adb3
+      }
+      .mode-tab.active span {
+        color:#00a0a8
+      }
+      .mode-description {
+        margin:0 0 15px;
+        color:#668396;
+        font-size:11px;
+        letter-spacing:.04em
+      }
+      .manual-fields {
+        display:none;
+        grid-template-columns:repeat(3,minmax(0,1fr));
+        gap:8px 14px;
+        padding:20px 0 4px
+      }
+      .manual-fields label {
+        margin:0;
+        color:#357e8e;
+        font-size:11px
+      }
+      .manual-fields select {
+        grid-row:2;
+        background:#f4ffff;
+        border-color:#b8e4e3;
+        color:#244960
+      }
+      .manual-note {
+        grid-column:1/-1;
+        color:#77909f;
+        font-size:10px;
+        line-height:1.8
+      }
+      .entry-manual .manual-fields {
+        display:grid
+      }
+      .entry-manual textarea {
+        min-height:58px
+      }
+      .entry-manual textarea::placeholder {
+        content:'（选填）补充所问事项、日期与时间';
+      }
+      .party-role {
+        min-width:94px!important;
+        height:72px!important;
+        border-radius:17px!important;
+        padding:8px!important
+      }
+      .party-role .role-mark {
+        font-size:18px!important
+      }
+      .party-role small {
+        font-size:9px;
+        white-space:nowrap
+      }
+      .party-role.main-pick {
+        outline:2px solid #168fa0;
+        outline-offset:2px;
+        box-shadow:0 6px 16px #168fa022
+      }
+      .party-role.support-pick {
+        outline:1px dashed #87aab3;
+        outline-offset:2px
+      }
+      .party-legend {
+        display:flex;
+        gap:7px;
+        flex-wrap:wrap;
+        margin:11px 0 4px
+      }
+      .party-legend span {
+        font:9px 'DM Mono',monospace;
+        color:#627f91;
+        border:1px solid #d0e7e8;
+        border-radius:99px;
+        padding:4px 8px
+      }
+      .team {
+        flex-wrap:wrap;
+        gap:13px;
+        margin:19px 0 14px
+      }
+      .arm-sphere {
+        overflow:hidden;
+        background:radial-gradient(circle at 34% 27%,#ffffff 0 3%,#e2ffff 10%,#72d9d6 38%,#41acc5 68%,#215ba0 100%);
+        box-shadow:inset -26px -20px 34px #163f8b66,inset 13px 9px 23px #ffffffcf,0 12px 35px #2b87ad44
+      }
+      .arm-sphere:before {
+        content:"";
+        position:absolute;
+        width:45%;
+        height:23%;
+        top:13%;
+        left:19%;
+        border-radius:50%;
+        background:#fff9;
+        filter:blur(12px);
+        transform:rotate(-28deg)
+      }
+      .arm-sphere:after {
+        content:"";
+        position:absolute;
+        inset:7% 19%;
+        border:1px solid #ffffff48;
+        border-radius:50%;
+        transform:rotateY(58deg);
+        box-shadow:0 0 12px #ffffff33
+      }
+      .arm-sphere b {
+        position:relative;
+        z-index:1;
+        color:#fff;
+        text-shadow:0 2px 15px #07547b99
+      }
+      .track-a {
+        animation:trackSpinA 36s linear infinite
+      }
+      .track-b {
+        animation:trackSpinB 49s linear infinite
+      }
+      .track-c {
+        animation:trackSpinC 63s linear infinite
+      }
+      .track-d {
+        animation:trackSpinD 42s linear infinite
+      }
+      @keyframes trackSpinA {
+        from {
+          transform:rotateX(72deg) rotateY(8deg) rotateZ(0)
+        }
+        to {
+          transform:rotateX(72deg) rotateY(8deg) rotateZ(360deg)
+        }
+      }
+      @keyframes trackSpinB {
+        from {
+          transform:rotateX(62deg) rotateY(48deg) rotateZ(18deg)
+        }
+        to {
+          transform:rotateX(62deg) rotateY(48deg) rotateZ(378deg)
+        }
+      }
+      @keyframes trackSpinC {
+        from {
+          transform:rotateX(76deg) rotateY(-40deg) rotateZ(-28deg)
+        }
+        to {
+          transform:rotateX(76deg) rotateY(-40deg) rotateZ(332deg)
+        }
+      }
+      @keyframes trackSpinD {
+        from {
+          transform:rotateY(68deg) rotateZ(24deg)
+        }
+        to {
+          transform:rotateY(68deg) rotateZ(384deg)
+        }
+      }
+      @media(max-width:760px) {
+        .mode-tabs {
+          gap:6px
+        }
+        .mode-tab {
+          padding:11px 7px;
+          font-size:10px;
+          text-align:center
+        }
+        .mode-tab span {
+          display:block;
+          margin:0 0 4px
+        }
+        .manual-fields {
+          grid-template-columns:1fr
+        }
+        .manual-fields select {
+          grid-row:auto
+        }
+        .manual-note {
+          grid-column:auto
+        }
+        .team {
+          gap:10px
+        }
+      }
+      @media(prefers-reduced-motion:reduce) {
+        .track-a,.track-b,.track-c,.track-d {
+          animation:none
+        }
+      }
+
+    </style>
+    <style id="center-hero-social-link">
+
+      .hero {
+        min-height:unset;
+        padding:48px 0 48px;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        text-align:center
+      }
+      .hero-copy {
+        width:100%;
+        display:flex;
+        flex-direction:column;
+        align-items:center
+      }
+      .eyebrow {
+        justify-content:center
+      }
+      h1 {
+        margin:24px 0 18px
+      }
+      .hero .sub {
+        max-width:740px
+      }
+      .hero-foot {
+        justify-content:center
+      }
+      .hero:before {
+        right:auto;
+        left:50%;
+        top:37%;
+        width:440px;
+        height:440px;
+        transform:translate(-50%,-20%)
+      }
+      .orb-wrap {
+        position:relative;
+        right:auto;
+        top:auto;
+        width:min(560px,100%);
+        height:410px;
+        margin:8px auto 0;
+        opacity:1;
+        justify-self:center
+      }
+      .armillary-hint {
+        top:0
+      }
+      .orb-wrap .side-note {
+        right:-2px
+      }
+      .example {
+        align-items:center;
+        gap:14px
+      }
+      .example-links {
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+        align-items:flex-end
+      }
+      .social-link {
+        font:13px 'Noto Serif SC',serif;
+        color:#087f91;
+        text-decoration:none;
+        border-bottom:1px solid #00aeb455;
+        padding:3px 0;
+        white-space:nowrap
+      }
+      .social-link:hover {
+        color:#d35e8c;
+        border-color:#d35e8c
+      }
+      .example button {
+        padding:0;
+        border:0;
+        background:none;
+        box-shadow:none;
+        font:inherit;
+        color:#008da2;
+        letter-spacing:.08em
+      }
+      .example button:hover {
+        transform:translateY(-1px);
+        box-shadow:none;
+        background:none
+      }
+      @media(max-width:760px) {
+        .hero {
+          padding:42px 0 36px
+        }
+        .hero:before {
+          left:50%;
+          right:auto;
+          top:47%;
+          width:300px;
+          height:300px;
+          transform:translate(-50%,-10%)
+        }
+        .orb-wrap {
+          position:relative;
+          right:auto;
+          top:auto;
+          width:320px;
+          height:300px;
+          margin:5px auto 0;
+          opacity:1
+        }
+        .orb-wrap .side-note {
+          right:-12px
+        }
+        .hero-foot {
+          justify-content:center
+        }
+        .example {
+          align-items:flex-start;
+          flex-direction:column
+        }
+        .example-links {
+          width:100%;
+          justify-content:flex-end;
+          gap:16px
+        }
+      }
+
+    </style>
+  </head>
+  <body>
+    <canvas id="dust">
+    </canvas>
+    <div class="grain">
+    </div>
+    <header class="top wrap">
+      <div class="brand">
+        <div class="seal">
+          <span>玄
+          </span>
+        </div>
+        <span>玄签 / XUAN QIAN
+        </span>
+      </div>
+      <div class="topright">
+        <nav class="site-nav">
+          <a href="#entry">写下所问
+          </a><a href="#result">查看卦象
+          </a>
+        </nav>
+        <span class="live">在线 · 本地推演
+        </span>
+      </div>
+    </header>
+    <main class="wrap">
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">
+            A LITTLE RITUAL FOR YOUR WISH · 玄签 01
+          </div>
+          <h1>
+            玄签
+            <span>机锋
+            </span>
+          </h1>
+          <div class="sub">
+            把所问交给年月日时，循本卦、互卦与变卦，看看此刻的机锋。
+          </div>
+          <div class="hero-foot">
+            <span>梅花易数 · 数字起卦
+            </span><span>依据传统取象规则推演
+            </span>
+          </div>
+        </div>
+        <div class="orb-wrap">
+          <div class="armillary-hint">
+            拖动星仪 · 观天象
+          </div>
+          <div class="armillary" id="armillary" role="img" aria-label="可拖动旋转的三维浑天仪星轨">
+            <div class="arm-sphere">
+              <i class="star s1"></i><i class="star s2"></i><i class="star s3"></i><i class="star s4"></i><b>机
+              </b>
+            </div>
+            <div class="track track-a">
+              <i></i>
+            </div>
+            <div class="track track-b">
+              <i></i>
+            </div>
+            <div class="track track-c">
+              <i></i>
+            </div>
+            <div class="track track-d">
+              <i></i>
+            </div>
+            <div class="armillary-axis">
+            </div>
+          </div>
+          <div class="orb-caption">
+            天时 · 人意 · 机缘
+          </div>
+          <div class="side-note">
+            以念为引 以时为序
+          </div>
+        </div>
+      </section>
+      <section id="entry">
+        <div class="section-head">
+          <div class="label">
+            01 / 选择推演方式
+          </div>
+          <small>THREE WAYS TO READ THE SIGN
+          </small>
+        </div>
+        <div class="mode-tabs" role="tablist">
+          <button class="mode-tab active" data-mode="time" role="tab" aria-selected="true"><span>01
+          </span>时起卦
+          </button><button class="mode-tab" data-mode="manual" role="tab" aria-selected="false"><span>02
+          </span>本卦与互卦
+          </button><button class="mode-tab" data-mode="random" role="tab" aria-selected="false"><span>03
+          </span>随机起卦
+          </button>
+        </div>
+        <div class="mode-description" id="modeDescription">
+          输入人物、时间与所问之事，以年月日时取数起卦。
+        </div>
+        <div class="input-panel">
+          <textarea id="prompt" maxlength="240" placeholder="写下人物、时间与所问之事……&#10;例如：2026年10月3日晚上九点，我准备为新角色抽卡。">
+          </textarea>
+          <div class="manual-fields" id="manualFields">
+            <label>本卦
+            </label>
+            <select id="manualBen">
+            </select>
+            <label>互卦
+            </label>
+            <select id="manualHu">
+            </select>
+            <label>动爻
+            </label>
+            <select id="manualMove">
+              <option value="1">初爻
+              </option><option value="2">二爻
+              </option><option value="3" selected>三爻
+              </option><option value="4">四爻
+              </option><option value="5">五爻
+              </option><option value="6">上爻
+              </option>
+            </select>
+            <div class="manual-note">
+              本卦、互卦按你提供的信息输入；动爻用于确定体用与变卦。可在上方文字框补充事项和求测时间。
+            </div>
+          </div>
+          <div class="input-bottom">
+            <span class="hint">一句话即可，写下人物、时间与所求之事。
+            </span><button class="go" id="generate">开始推演
+            <i>↗
+            </i></button>
+          </div>
+        </div>
+        <div class="example">
+          <span>推演在本地浏览器完成 · 无需账号，不会上传内容
+          </span>
+          <div class="example-links">
+            <button id="fill">试试示例 ↗
+            </button><a class="social-link" href="https://www.douyin.com/user/MS4wLjABAAAAf8wEW4836Usm0HYqRodZmckClkF5yFhpjg5sxWwsMh5NfuWXkyr_uE3lvGj_8I4w?from_tab_name=main" target="_blank" rel="noopener noreferrer">抖音主页 ↗
+            </button><a class="social-link" href="https://www.xiaohongshu.com/user/profile/68e7874b000000003201cc4f" target="_blank" rel="noopener noreferrer">小红书 ↗
+            </button><a class="social-link" href="https://space.bilibili.com/510195231?spm_id_from=333.1007.0.0" target="_blank" rel="noopener noreferrer">b站主页 ↗
+            </a>
+          </div>
+        </div>
+      </section>
+      <section class="result" id="result">
+        <div class="result-top">
+          <div>
+            <div class="label">
+              02 / 时机已现
+            </div>
+            <h2>
+              此刻宜顺势而为
+            </h2>
+          </div>
+          <div class="parsed" id="parsed">
+            已解析 · 起念之时
+          </div>
+        </div>
+        <div class="grid">
+          <article class="card primary">
+            <div class="label">
+              FAVORED MOMENT · 吉时
+            </div>
+            <div class="time" id="time">
+              21:18
+              <em>—
+              </em>21:42
+            </div>
+            <div class="date-line" id="date">
+              择时窗口 · 宜心静后起手
+            </div>
+            <div class="recommend">
+              <div>
+                <strong id="direction">面向东方
+                </strong><span>方位建议
+                </span>
+              </div>
+              <div>
+                <strong id="place">明净安静处
+                </strong><span>推荐地点
+                </span>
+              </div>
+            </div>
+            <div class="place-why" id="placewhy">
+              取卦象方位与场景之意，选择明净安静、少受打扰的位置。
+            </div>
+            <div class="card-copy" style="margin-top:28px;max-width:400px">
+              留一点余裕给意外的惊喜。若当下不便，择你心绪安定之时即可。
+            </div>
+          </article>
+          <article class="card">
+            <div class="label">
+              PARTY · 共鸣之阵
+            </div>
+            <div class="card-title" id="partytitle">
+              火起相生
+            </div>
+            <div class="team" id="team">
+              <div class="member">
+                炎
+              </div>
+              <div class="member">
+                风
+              </div>
+              <div class="member">
+                星
+              </div>
+              <div class="member">
+                月
+              </div>
+            </div>
+            <div class="card-copy" id="partycopy">
+              以熟悉的主力角色为核心，搭配增益与续航位。阵容名称可按你正在游玩的游戏调整。
+            </div>
+          </article>
+          <article class="card">
+            <div class="label">
+              HEXAGRAM · 象意简析
+            </div>
+            <div class="card-title" id="hex">
+              火水未济 · 动中藏静
+            </div>
+            <div class="card-copy" id="analysis">
+              事情仍在变化之中，适合抱持期待，却不必急于求成。先定好投入边界，再从容行动。
+            </div>
+          </article>
+          <article class="card">
+            <div class="label">
+              动爻 · 爻辞
+            </div>
+            <div class="poem" id="poem">
+              星火照长夜，
+              <br>静候一枝春。
+            </div>
+            <div class="poem-meta">
+              随时取象 · 动爻爻辞取意 · 非经典原文
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+    <footer class="footer wrap">
+      <span>玄签 · 时序推演
+      <b>／
+      </b>以农历年支、月日及时支取数，体用生克参看
+      </span><span>梅花易数取象分析 · 不能推定游戏实际概率
+      </span>
+    </footer>
+    <div class="toast" id="toast">
+      已为你推演
+    </div>
+    <script>
+
+      const $=s=>document.querySelector(s),
+      promptBox=$('#prompt');
+      $('#fill').onclick=()=> {
+        promptBox.value='我今晚九点想为新角色抽卡，希望能顺利迎来她。';
+        promptBox.focus()
+      };
+      function hash(s) {
+        let h=2166136261;
+        for(let i=0;
+        i<s.length;
+        i++) {
+          h^=s.charCodeAt(i);
+          h=Math.imul(h,
+          16777619)
+        }
+        return h>>>0
+      }
+      function pick(a,
+      n) {
+        return a[n%a.length]
+      }
+      const GUA=[null,
+      {
+        name:'乾',
+        wx:'金',
+        sym:'☰',
+        lines:[1,
+        1,
+        1]
+      },
+      {
+        name:'兑',
+        wx:'金',
+        sym:'☱',
+        lines:[1,
+        1,
+        0]
+      },
+      {
+        name:'离',
+        wx:'火',
+        sym:'☲',
+        lines:[1,
+        0,
+        1]
+      },
+      {
+        name:'震',
+        wx:'木',
+        sym:'☳',
+        lines:[1,
+        0,
+        0]
+      },
+      {
+        name:'巽',
+        wx:'木',
+        sym:'☴',
+        lines:[0,
+        1,
+        1]
+      },
+      {
+        name:'坎',
+        wx:'水',
+        sym:'☵',
+        lines:[0,
+        1,
+        0]
+      },
+      {
+        name:'艮',
+        wx:'土',
+        sym:'☶',
+        lines:[0,
+        0,
+        1]
+      },
+      {
+        name:'坤',
+        wx:'土',
+        sym:'☷',
+        lines:[0,
+        0,
+        0]
+      }
+      ];
+      const shichen=['子',
+      '丑',
+      '寅',
+      '卯',
+      '辰',
+      '巳',
+      '午',
+      '未',
+      '申',
+      '酉',
+      '戌',
+      '亥'];
+      const pairNames= {
+        '乾乾':'乾为天',
+        '乾兑':'天泽履',
+        '乾离':'天火同人',
+        '乾震':'天雷无妄',
+        '乾巽':'天风姤',
+        '乾坎':'天水讼',
+        '乾艮':'天山遁',
+        '乾坤':'天地否',
+        '兑乾':'泽天夬',
+        '兑兑':'兑为泽',
+        '兑离':'泽火革',
+        '兑震':'泽雷随',
+        '兑巽':'泽风大过',
+        '兑坎':'泽水困',
+        '兑艮':'泽山咸',
+        '兑坤':'泽地萃',
+        '离乾':'火天大有',
+        '离兑':'火泽睽',
+        '离离':'离为火',
+        '离震':'火雷噬嗑',
+        '离巽':'火风鼎',
+        '离坎':'火水未济',
+        '离艮':'火山旅',
+        '离坤':'火地晋',
+        '震乾':'雷天大壮',
+        '震兑':'雷泽归妹',
+        '震离':'雷火丰',
+        '震震':'震为雷',
+        '震巽':'雷风恒',
+        '震坎':'雷水解',
+        '震艮':'雷山小过',
+        '震坤':'雷地豫',
+        '巽乾':'风天小畜',
+        '巽兑':'风泽中孚',
+        '巽离':'风火家人',
+        '巽震':'风雷益',
+        '巽巽':'巽为风',
+        '巽坎':'风水涣',
+        '巽艮':'风山渐',
+        '巽坤':'风地观',
+        '坎乾':'水天需',
+        '坎兑':'水泽节',
+        '坎离':'水火既济',
+        '坎震':'水雷屯',
+        '坎巽':'水风井',
+        '坎坎':'坎为水',
+        '坎艮':'水山蹇',
+        '坎坤':'水地比',
+        '艮乾':'山天大畜',
+        '艮兑':'山泽损',
+        '艮离':'山火贲',
+        '艮震':'山雷颐',
+        '艮巽':'山风蛊',
+        '艮坎':'山水蒙',
+        '艮艮':'艮为山',
+        '艮坤':'山地剥',
+        '坤乾':'地天泰',
+        '坤兑':'地泽临',
+        '坤离':'地火明夷',
+        '坤震':'地雷复',
+        '坤巽':'地风升',
+        '坤坎':'地水师',
+        '坤艮':'地山谦',
+        '坤坤':'坤为地'
+      };
+      let activeMode='time';
+      const manualBen=document.getElementById('manualBen'),
+      manualHu=document.getElementById('manualHu');
+      const hexOptions=Object.keys(pairNames).map(k=>`<option value="${k}">${pairNames[k]}（上${k[0]} · 下${k[1]}）</option>`).join('');
+      manualBen.innerHTML=hexOptions;
+      manualHu.innerHTML=hexOptions;
+      manualBen.value='离坎';
+      manualHu.value='坎离';
+      function setMode(mode) {
+        activeMode=mode;
+        document.getElementById('entry').classList.toggle('entry-manual',
+        mode==='manual');
+        document.querySelectorAll('.mode-tab').forEach(b=> {
+          const on=b.dataset.mode===mode;
+          b.classList.toggle('active',
+          on);
+          b.setAttribute('aria-selected',
+          String(on))
+        }  );
+        const desc= {
+          time:'输入人物、时间与所问之事，以年月日时取数起卦。',
+          manual:'选择你已有的本卦、互卦与动爻，直接按体用关系作分析。',
+          random:'由系统随机取上卦、下卦与动爻，再按梅花易数体用法推演。'
+        }  ;
+        document.getElementById('modeDescription').textContent=desc[mode];
+        document.getElementById('generate').innerHTML=(mode==='random'?'随机起卦':'开始推演')+' <i>↗</i>';
+        document.querySelector('.input-bottom .hint').textContent=mode==='manual'?'选择本卦、互卦与动爻；文字说明可留空。':mode==='random'?'无需输入也可起卦；也可写下所问之事作为记录。':'一句话即可，写下人物、时间与所求之事。'
+      }
+      document.querySelectorAll('.mode-tab').forEach(b=>b.addEventListener('click',
+      ()=>setMode(b.dataset.mode)));
+      function lunarDayName(n) {
+        const d=['',
+        '一',
+        '二',
+        '三',
+        '四',
+        '五',
+        '六',
+        '七',
+        '八',
+        '九'];
+        if(n<=10)return '初'+(n===10?'十':d[n]);
+        if(n<20)return '十'+d[n-10];
+        if(n===20)return '二十';
+        if(n<30)return '廿'+d[n-20];
+        return '三十'
+      }
+      function getLunarParts(date) {
+        const fmt=new Intl.DateTimeFormat('zh-CN-u-ca-chinese-nu-latn',
+        {
+          year:'numeric',
+          month:'numeric',
+          day:'numeric'
+        }  );
+        const p=Object.fromEntries(fmt.formatToParts(date).map(x=>[x.type,
+        x.value]));
+        const names= {
+          '正':1,
+          '一':1,
+          '二':2,
+          '三':3,
+          '四':4,
+          '五':5,
+          '六':6,
+          '七':7,
+          '八':8,
+          '九':9,
+          '十':10,
+          '十一':11,
+          '十二':12,
+          '冬':11,
+          '腊':12
+        }  ;
+        const m=p.month.match(/(十一|十二|十|正|一|二|三|四|五|六|七|八|九|冬|腊)/);
+        const month=m?names[m[1]]:parseInt(p.month,
+        10);
+        if(!p.relatedYear||!month||!p.day)throw new Error('浏览器未能读取农历日期，请使用较新的浏览器。');
+        const year=+p.relatedYear,
+        day=+p.day;
+        const stems=['甲',
+        '乙',
+        '丙',
+        '丁',
+        '戊',
+        '己',
+        '庚',
+        '辛',
+        '壬',
+        '癸'];
+        const branches=['子',
+        '丑',
+        '寅',
+        '卯',
+        '辰',
+        '巳',
+        '午',
+        '未',
+        '申',
+        '酉',
+        '戌',
+        '亥'];
+        const cycle=((year-4)%60+60)%60;
+        return {
+          year,
+          month,
+          day,
+          monthText:p.month,
+          stem:stems[cycle%10],
+          branch:branches[cycle%12],
+          ganzhi:stems[cycle%10]+branches[cycle%12]
+        }
+      }
+      function getJieqiMonthBranch(date) {
+        const m=date.getMonth()+1,
+        d=date.getDate();
+        const terms=[[1,
+        6,
+        '丑'],
+        [2,
+        4,
+        '寅'],
+        [3,
+        6,
+        '卯'],
+        [4,
+        5,
+        '辰'],
+        [5,
+        6,
+        '巳'],
+        [6,
+        6,
+        '午'],
+        [7,
+        7,
+        '未'],
+        [8,
+        8,
+        '申'],
+        [9,
+        8,
+        '酉'],
+        [10,
+        8,
+        '戌'],
+        [11,
+        7,
+        '亥'],
+        [12,
+        7,
+        '子']];
+        let b='丑';
+        for(const [tm,
+        td,
+        tb] of terms) {
+          if(m>tm||(m===tm&&d>=td))b=tb;
+          else break
+        }
+        return b
+      }
+      function decodeHex(key) {
+        const u=GUA.find(g=>g.name===key[0]),
+        l=GUA.find(g=>g.name===key[1]);
+        return {
+          upper:u,
+          lower:l,
+          lines:[...l.lines,
+          ...u.lines]
+        }
+      }
+      function mod(n,
+      m) {
+        return ((n%m)+m)%m||m
+      }
+      function byLines(ls) {
+        return GUA.slice(1).find(g=>g.lines.join('')===ls.join(''))
+      }
+      function rel(a,
+      b) {
+        if(a===b)return '比和';
+        const gen= {
+          木:'火',
+          火:'土',
+          土:'金',
+          金:'水',
+          水:'木'
+        }  ,
+        ctl= {
+          木:'土',
+          土:'水',
+          水:'火',
+          火:'金',
+          金:'木'
+        }  ;
+        if(gen[a]===b)return '体生用';
+        if(gen[b]===a)return '用生体';
+        if(ctl[a]===b)return '体克用';
+        if(ctl[b]===a)return '用克体';
+        return '比和'
+      }
+      function generate() {
+        const raw=promptBox.value.trim();
+        if(!raw&&activeMode==='time') {
+          promptBox.focus();
+          $('#toast').textContent='请写明求测事项与时间';
+          $('#toast').classList.add('on');
+          setTimeout(()=>$('#toast').classList.remove('on'),
+          2100);
+          return
+        }
+        const now=new Date();
+        const dm=raw.match(
+          /(20\d{2})[年\/.\-](\d{1,2})[月\/.\-](\d{1,2})/
+        );
+        let dt=dm?new Date(+dm[1],
+        +dm[2]-1,
+        +dm[3],
+        now.getHours()):new Date(now);
+        const hm=raw.match(
+          /(?:晚上|夜间|夜里|下午|上午|早上|中午)?\s*(\d{1,2})\s*(?:点|:|：)\s*(\d{0,2})?/
+        );
+        const cnHm=raw.match(
+          /(?:晚上|夜间|夜里|下午|上午|早上|中午)?\s*([零〇一二三四五六七八九十]{1,3})点/
+        );
+        const branchMatch=raw.match(/(子|丑|寅|卯|辰|巳|午|未|申|酉|戌|亥)时/);
+        let hour=hm?+hm[1]:cnHm?({
+          '零':0,
+          '〇':0,
+          '一':1,
+          '二':2,
+          '三':3,
+          '四':4,
+          '五':5,
+          '六':6,
+          '七':7,
+          '八':8,
+          '九':9,
+          '十':10,
+          '十一':11,
+          '十二':12
+        }
+        [cnHm[1]]??dt.getHours()):dt.getHours();
+        if(branchMatch) {
+          const bi=shichen.indexOf(branchMatch[1]);
+          hour=bi===0?23:bi*2
+        }
+        if(hm&&/(晚上|夜间|夜里|下午)/.test(raw)&&hour<12)hour+=12;
+        if(cnHm&&/(晚上|夜间|夜里|下午)/.test(raw)&&hour<12)hour+=12;
+        if((hm||cnHm)&&/(上午|早上)/.test(raw)&&hour===12)hour=0;
+        if((hm||cnHm)&&/中午/.test(raw)&&hour<11)hour+=12;
+        hour%=24;
+        dt.setHours(hour);
+        const branchIndex=Math.floor(((hour+1)%24)/2),
+        branch=shichen[branchIndex],
+        branchNum=branchIndex+1,
+        lunar=getLunarParts(dt),
+        month=dt.getMonth()+1,
+        monthBranch=getJieqiMonthBranch(dt),
+        monthWx=( {
+          寅:'木',
+          卯:'木',
+          辰:'土',
+          巳:'火',
+          午:'火',
+          未:'土',
+          申:'金',
+          酉:'金',
+          戌:'土',
+          亥:'水',
+          子:'水',
+          丑:'土'
+        }  )[monthBranch],
+        yearBranchNum=shichen.indexOf(lunar.branch)+1;
+        let upper,
+        lower,
+        moving,
+        providedMutual=null;
+        if(activeMode==='manual') {
+          const ben=decodeHex(manualBen.value),
+          hu=decodeHex(manualHu.value);
+          upper=ben.upper;
+          lower=ben.lower;
+          moving=+document.getElementById('manualMove').value;
+          providedMutual=hu.lines
+        }
+        else if(activeMode==='random') {
+          upper=GUA[1+Math.floor(Math.random()*8)];
+          lower=GUA[1+Math.floor(Math.random()*8)];
+          moving=1+Math.floor(Math.random()*6)
+        }
+        else {
+          const upperSum=yearBranchNum+lunar.month+lunar.day;
+          upper=GUA[mod(upperSum,
+          8)];
+          lower=GUA[mod(upperSum+branchNum,
+          8)];
+          moving=mod(upperSum+branchNum,
+          6)
+        }
+        const lines=[...lower.lines,
+        ...upper.lines],
+        changed=lines.map((v,
+        i)=>i===moving-1?1-v:v),
+        mutual=providedMutual||[lines[1],
+        lines[2],
+        lines[3],
+        lines[2],
+        lines[3],
+        lines[4]],
+        up=upper,
+        lo=lower;
+        const bUp=byLines(changed.slice(3)),
+        bLo=byLines(changed.slice(0,
+        3)),
+        hUp=byLines(mutual.slice(3)),
+        hLo=byLines(mutual.slice(0,
+        3));
+        const ti=moving<=3?upper:lower,
+        yong=moving<=3?lower:upper;
+        const relation=rel(ti.wx,
+        yong.wx),
+        monthRel=rel(ti.wx,
+        monthWx),
+        monthRelationLabel=monthRel==='用克体'?'月令克体':monthRel==='用生体'?'月令生体':monthRel==='体生用'?'体生月令':monthRel==='体克用'?'体克月令':'月令比和',
+        bodyWeak=monthRel==='用克体'||monthRel==='体生用';
+        const good=(relation==='用生体'||relation==='比和'||relation==='体克用')&&!bodyWeak;
+        const favorableWx=(ti.wx==='木'?['水',
+        '木']:ti.wx==='火'?['木',
+        '火']:ti.wx==='土'?['火',
+        '土']:ti.wx==='金'?['土',
+        '金']:['金',
+        '水']);
+        const favorableBranches=shichen.filter((_,
+        i)=> {
+          const w=['水',
+          '土',
+          '木',
+          '木',
+          '土',
+          '火',
+          '火',
+          '土',
+          '金',
+          '金',
+          '土',
+          '水'][i];
+          return favorableWx.includes(w)
+        }  );
+        const hourRanges=['23:00–01:00',
+        '01:00–03:00',
+        '03:00–05:00',
+        '05:00–07:00',
+        '07:00–09:00',
+        '09:00–11:00',
+        '11:00–13:00',
+        '13:00–15:00',
+        '15:00–17:00',
+        '17:00–19:00',
+        '19:00–21:00',
+        '21:00–23:00'];
+        const bestIndex=shichen.findIndex((_,
+        i)=> {
+          const w=['水',
+          '土',
+          '木',
+          '木',
+          '土',
+          '火',
+          '火',
+          '土',
+          '金',
+          '金',
+          '土',
+          '水'][i];
+          return favorableWx.includes(w)
+        }  );
+        $('#time').innerHTML=hourRanges[bestIndex].replace('–',
+        '<em>—</em>');
+        const timeChoices=favorableBranches.map(b=>b+'时（'+hourRanges[shichen.indexOf(b)]+'）').join('、');
+        $('#date').textContent='公历 '+dt.getFullYear()+'.'+String(month).padStart(2,
+        '0')+'.'+String(dt.getDate()).padStart(2,
+        '0')+'　·　农历 '+lunar.ganzhi+'年'+lunar.monthText+lunarDayName(lunar.day)+'　·　'+monthBranch+'月（'+monthWx+'）　·　吉时 '+favorableBranches.join('、')+'时';
+        $('#parsed').textContent=(activeMode==='manual'?'按给定本互卦分析':activeMode==='random'?'随机取数起卦':'农历'+lunar.ganzhi+'年'+lunar.monthText+lunarDayName(lunar.day)+' · '+branch+'时')+' · 动爻'+['初',
+        '二',
+        '三',
+        '四',
+        '五',
+        '上'][moving-1]+'爻';
+        const dir=ti.name==='乾'?'西北':ti.name==='兑'?'西':ti.name==='离'?'南':ti.name==='震'?'东':ti.name==='巽'?'东南':ti.name==='坎'?'北':ti.name==='艮'?'东北':'西南';
+        const placeMap= {
+          乾:['开阔高处或视野通透的房间',
+          '乾象天与开阔，取明朗通透之意；选室内稳定、网络顺畅的位置即可。'],
+          兑:['整洁舒适、让人心情放松的角落',
+          '兑象泽与悦，取舒适愉悦之意；避开喧闹拥挤处，保持心情轻松。'],
+          离:['采光良好的书桌或明亮室内',
+          '离象火与明，取明亮清楚之意；光线充足、屏幕清晰即可，无需点火或用明火。'],
+          震:['靠窗或有自然生气的安静空间',
+          '震象动与生发，取清新有生气之意；选择不被打断、坐得安稳的位置。'],
+          巽:['通风、整洁而不嘈杂的室内',
+          '巽象风与入，取通达流畅之意；空气流通、网络稳定即可。'],
+          坎:['安静、背后有靠的室内座位',
+          '坎象水与静，取沉静专注之意；不必临水，优先选择安全、少干扰的位置。'],
+          艮:['背后有靠、界限清楚的安静角落',
+          '艮象山与止，取安定收心之意；选择稳当少扰的位置，便于按计划行动。'],
+          坤:['平整宽敞、布置简洁的室内',
+          '坤象地与承载，取平稳踏实之意；桌面清爽、坐姿舒适即可。']
+        }  ;
+        $('#direction').textContent='面向'+dir;
+        $('#place').textContent=placeMap[ti.name][0];
+        $('#placewhy').textContent=placeMap[ti.name][1];
+        const supportWx=( {
+          木:'水',
+          火:'木',
+          土:'火',
+          金:'土',
+          水:'金'
+        }  )[ti.wx],
+        supportDir=( {
+          木:'东',
+          火:'南',
+          土:'中',
+          金:'西',
+          水:'北'
+        }  )[supportWx],
+        sameDir=( {
+          木:'东',
+          火:'南',
+          土:'中',
+          金:'西',
+          水:'北'
+        }  )[ti.wx];
+        $('#direction').textContent='面向'+supportDir+'方（'+supportWx+'生体优先）';
+        if(bodyWeak) {
+          $('#place').textContent='背后有靠、安静舒适的室内';
+          $('#placewhy').textContent='月令'+monthBranch+'（'+monthWx+'）克体，体势偏弱；'+sameDir+'方属'+ti.wx+'，与体比和；'+supportDir+'方属'+supportWx+'，生体更佳。方位仅作取象参考，仍以安全舒适、网络稳定为先。'
+        }
+        else {
+          $('#placewhy').textContent=placeMap[ti.name][1]+' 方位取象：'+sameDir+'方属'+ti.wx+'，与体比和；'+supportDir+'方属'+supportWx+'，生体更佳，面向生体方为优先。'
+        }
+        const wxRole= {
+          木:['木系/成长',
+          '水系/续航',
+          '火系/输出'],
+          火:['火系/输出',
+          '木系/增益',
+          '土系/承伤'],
+          土:['土系/承伤',
+          '火系/增益',
+          '金系/输出'],
+          金:['金系/输出',
+          '土系/增益',
+          '水系/续航'],
+          水:['水系/续航',
+          '金系/辅助',
+          '木系/输出']
+        }
+        [ti.wx];
+        $('#partytitle').textContent='以'+ti.wx+'为体，取生扶之势';
+        $('#team').innerHTML=wxRole.map((x,
+        i)=>`<div class="member party-role ${i===1?'main-pick':i===0?'support-pick':'extra-pick'} wx-${x[0]}" title="${x}"><span class="role-mark">${x[0]}</span><small>${i===1?'生体 · 优先':i===0?'比和 · 同类':'体生 · 参考'}</small><small>${x.slice(3)}</small></div>`).join('');
+        $('#partycopy').textContent='三类属性均可用于配队取象：优先考虑生体属性，其次比和同类；体生属性可作辅助参考，因体生用有耗泄之意。具体角色仍需结合游戏机制。';
+        const hexname=(a,
+        b)=>pairNames[a.name+b.name]||a.name+b.name;
+        $('#hex').textContent='本卦 '+hexname(up,
+        lo)+' → 互卦 '+hexname(hUp,
+        hLo)+' → 变卦 '+hexname(bUp,
+        bLo);
+        const reading=relation==='体克用'&&monthRel==='用克体'?`体克用本为有利，但${monthWx}月令克体，体势偏弱，宜取${supportWx}生扶。`:good?'体用关系与月令配合尚顺，可择生体或比和之时行动。':'体生用为泄，月令生体为助，吉中有耗。';
+        $('#analysis').textContent=`体卦为${ti.name}（${ti.wx}），用卦为${yong.name}（${yong.wx}），体用关系为“${relation}”；月建为${monthBranch}月（${monthWx}），对体卦为“${monthRelationLabel}”。${reading}互卦${hexname(hUp,hLo)}看过程，变卦${hexname(bUp,bLo)}看后势。`;
+        const yaoWords=['初爻发动，始事宜审慎，先察后行。',
+        '二爻发动，守中履正，按计划稳步推进。',
+        '三爻发动，事情在进退间，避免情绪化加码。',
+        '四爻发动，外部条件渐明，行动前核对资源。',
+        '五爻发动，持中守正，循序施行。',
+        '上爻发动，事情近于阶段收束，知止而安。'];
+        let yaoText=['初',
+        '二',
+        '三',
+        '四',
+        '五',
+        '上'][moving-1]+'爻辞取意：'+yaoWords[moving-1];
+        if(hexname(up,
+        lo)==='山雷颐'&&moving===4)yaoText='颐卦六四爻辞取意：颠颐求养，专注所需；所求虽切，守正无咎。';
+        $('#poem').textContent=yaoText;
+        let panel=document.getElementById('hexpanel');
+        if(!panel) {
+          panel=document.createElement('article');
+          panel.id='hexpanel';
+          panel.className='card hexpanel';
+          panel.innerHTML='<div class="label">梅花易数 · 卦盘</div><div class="hexgrid" id="hexgrid"></div><div class="card-copy" id="method"></div>';
+          document.querySelector('.grid').prepend(panel)
+        }
+        const renderHex=(name,
+        g,
+        move)=>`<div class="hexitem"><div class="hexname">${name}</div><div class="hexsym">${g.sym}</div><div>${g.name} · ${g.wx} · ${g.wx==='金'?'西':g.wx==='木'?'东':g.wx==='水'?'北':g.wx==='火'?'南':'中'}方</div>${g.lines.map((v,i)=>`<div class="line ${v?'':'broken'} ${move===i?'moving':''}">${v?'━━━━━━':'━━　━━'}${move===i?'　动':''}</div>`).reverse().join('')}</div>`;
+        $('#hexgrid').innerHTML=renderHex('本卦上卦',
+        up,
+        moving>=4?moving-4:-1)+renderHex('本卦下卦',
+        lo,
+        moving<=3?moving-1:-1)+renderHex('互卦上卦',
+        hUp,
+        -1)+renderHex('互卦下卦',
+        hLo,
+        -1)+renderHex('变卦上卦',
+        bUp,
+        -1)+renderHex('变卦下卦',
+        bLo,
+        -1);
+        const methodText=activeMode==='manual'?`所据：本卦${hexname(up,lo)}，互卦${hexname(hUp,hLo)}，${['初','二','三','四','五','上'][moving-1]}爻动。体用依动爻所在上下卦确定；互卦采用你提供的卦象。`:activeMode==='random'?`随机取数：上卦${upper.name}（${upper.wx}），下卦${lower.name}（${lower.wx}），${['初','二','三','四','五','上'][moving-1]}爻动。体用按动爻所在上下卦确定；月令按节令简化估算。`:`取数：农历${lunar.ganzhi}年${lunar.monthText}${lunarDayName(lunar.day)}，年支${yearBranchNum}，${branch}时取数${branchNum}。上卦＝（年支数＋农历月＋农历日）除8取余；下卦＝（上数＋时支数）除8取余；动爻＝（上数＋时支数）除6取余。月建按节气推定为${monthBranch}月（${monthWx}）。`;
+        $('#method').textContent=methodText;
+        $('#result').classList.add('show');
+        setTimeout(()=>$('#result').scrollIntoView( {
+          behavior:'smooth',
+          block:'start'
+        }  ),
+        80);
+        $('#toast').textContent='卦盘已排出';
+        $('#toast').classList.add('on');
+        setTimeout(()=>$('#toast').classList.remove('on'),
+        1800)
+      }
+      $('#generate').onclick=()=> {
+        try {
+          generate()
+        }
+        catch(error) {
+          console.error(error);
+          $('#toast').textContent='推演遇到问题，请刷新后重试';
+          $('#toast').classList.add('on');
+          setTimeout(()=>$('#toast').classList.remove('on'),
+          3000)
+        }
+      };
+      promptBox.addEventListener('keydown',
+      e=> {
+        if((e.ctrlKey||e.metaKey)&&e.key==='Enter')generate()
+      });
+      // A restrained field of drifting starlight, sized for the viewport.
+      const arm=document.getElementById("armillary"),
+      stage=arm?.parentElement;
+      let rotX=-19,
+      rotY=-26,
+      drag=null;
+      if(stage&&arm) {
+        stage.addEventListener("pointerdown",
+        e=> {
+          drag= {
+            x:e.clientX,
+            y:e.clientY,
+            rx:rotX,
+            ry:rotY
+          }    ;
+          stage.setPointerCapture(e.pointerId)
+        }  );
+        stage.addEventListener("pointermove",
+        e=> {
+          if(!drag)return;
+          rotY=drag.ry+(e.clientX-drag.x)*.55;
+          rotX=Math.max(-75,
+          Math.min(75,
+          drag.rx-(e.clientY-drag.y)*.45));
+          arm.style.transform=`rotateX(${rotX}deg) rotateY(${rotY}deg)`
+        }  );
+        const stop=()=>drag=null;
+        stage.addEventListener("pointerup",
+        stop);
+        stage.addEventListener("pointercancel",
+        stop)
+      }
+      const cv=$('#dust'),
+      ctx=cv.getContext('2d');
+      let w,
+      h,
+      stars=[];
+      function resize() {
+        w=cv.width=innerWidth*devicePixelRatio;
+        h=cv.height=innerHeight*devicePixelRatio;
+        cv.style.width=innerWidth+'px';
+        cv.style.height=innerHeight+'px';
+        stars=Array.from( {
+          length:Math.min(95,
+          Math.floor(innerWidth/13))
+        }  ,
+        ()=>( {
+          x:Math.random()*w,
+          y:Math.random()*h,
+          r:Math.random()*1.2+.2,
+          a:Math.random()*.45+.08,
+          v:Math.random()*.18+.04
+        }  ))
+      }
+      function draw() {
+        ctx.clearRect(0,
+        0,
+        w,
+        h);
+        for(const s of stars) {
+          ctx.fillStyle=`rgba(218,192,134,${s.a})`;
+          ctx.beginPath();
+          ctx.arc(s.x,
+          s.y,
+          s.r*devicePixelRatio,
+          0,
+          Math.PI*2);
+          ctx.fill();
+          s.y-=s.v*devicePixelRatio;
+          if(s.y<0) {
+            s.y=h;
+            s.x=Math.random()*w
+          }
+        }
+        requestAnimationFrame(draw)
+      }
+      addEventListener('resize',
+      resize);
+      resize();
+      draw();
+
+    </script>
+  </body>
+</html>
