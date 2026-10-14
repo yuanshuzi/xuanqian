@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="#090a09">
     <title>
-      玄签 · 梅花易数抽卡择时
+      玄签 1.6 · 梅花易数抽卡择时
     </title>
     <!-- 创作者为2677133851，栗子哥，2026.10.3 -->
     <style>
@@ -1315,7 +1315,7 @@
       }
       .manual-fields {
         display:none;
-        grid-template-columns:repeat(3,minmax(0,1fr));
+        grid-template-columns:repeat(4,minmax(0,1fr));
         gap:8px 14px;
         padding:20px 0 4px
       }
@@ -1336,9 +1336,30 @@
         font-size:10px;
         line-height:1.8
       }
+      .manual-check {
+        grid-column:1/-1;
+        padding:9px 12px;
+        border:1px solid #c9e8df;
+        border-radius:10px;
+        color:#39775e;
+        background:#f4fbf7;
+        font-size:10px;
+        line-height:1.8
+      }
+      .manual-check.is-warning {
+        color:#a64a42;
+        border-color:#edc6bf;
+        background:#fff6f4
+      }
       .entry-manual .manual-fields {
         display:grid
       }
+      .entry-manual textarea,.entry-numeric textarea {display:none}
+      .numeric-fields {display:none;grid-template-columns:minmax(0,1fr);gap:8px;padding:20px 0 4px}
+      .entry-numeric .numeric-fields {display:grid}
+      .numeric-fields label {margin:0;color:#357e8e;font-size:11px}
+      .numeric-fields input {max-width:280px;background:#f4ffff;border-color:#b8e4e3;color:#244960}
+      .numeric-note {color:#77909f;font-size:10px;line-height:1.8}
       .entry-manual textarea {
         min-height:58px
       }
@@ -1366,6 +1387,20 @@
       .party-role.support-pick {
         outline:1px dashed #87aab3;
         outline-offset:2px
+      }
+      .party-role.not-recommended {
+        color:#bd2431!important;
+        border-color:#dc6670!important;
+        background:#fff0f1!important;
+        outline:1px solid #dc667088;
+        outline-offset:1px
+      }
+      .party-role.neutral-pick {
+        color:#718397!important;
+        border-color:#d4dfe6!important;
+        background:#fff!important;
+        outline:1px solid #d4dfe688;
+        outline-offset:1px
       }
       .party-legend {
         display:flex;
@@ -1475,13 +1510,13 @@
           margin:0 0 4px
         }
         .manual-fields {
-          grid-template-columns:1fr
+          grid-template-columns:repeat(2,minmax(0,1fr))
         }
         .manual-fields select {
           grid-row:auto
         }
         .manual-note {
-          grid-column:auto
+          grid-column:1/-1
         }
         .team {
           gap:10px
@@ -1556,6 +1591,12 @@
         gap:10px;
         align-items:flex-end
       }
+      .social-links-row {
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:flex-end;
+        gap:10px 18px
+      }
       .social-link {
         font:13px 'Noto Serif SC',serif;
         color:#087f91;
@@ -1567,6 +1608,30 @@
       .social-link:hover {
         color:#d35e8c;
         border-color:#d35e8c
+      }
+      .contact-area {
+        display:flex;
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
+        margin-top:24px
+      }
+      .contact-button {
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        padding:11px 19px;
+        border-radius:6px;
+        border:1px solid #b9e8e6;
+        background:#f7ffff;
+        color:#087f91;
+        font:600 14px 'Noto Serif SC',serif;
+        text-decoration:none;
+        transition:background .2s ease,color .2s ease
+      }
+      .contact-button:hover {
+        background:#e3424f;
+        color:#fff
       }
       .example button {
         padding:0;
@@ -1618,6 +1683,11 @@
           justify-content:flex-end;
           gap:16px
         }
+        .social-links-row {
+          width:100%;
+          justify-content:flex-end;
+          gap:8px 14px
+        }
       }
 
     </style>
@@ -1650,7 +1720,7 @@
       <section class="hero">
         <div class="hero-copy">
           <div class="eyebrow">
-            A LITTLE RITUAL FOR YOUR WISH · 玄签 01
+            A LITTLE RITUAL FOR YOUR WISH · 玄签 1.6
           </div>
           <h1>
             玄签
@@ -1703,16 +1773,18 @@
           <div class="label">
             01 / 选择推演方式
           </div>
-          <small>THREE WAYS TO READ THE SIGN
+          <small>FOUR WAYS TO READ THE SIGN
           </small>
         </div>
         <div class="mode-tabs" role="tablist">
           <button class="mode-tab active" data-mode="time" role="tab" aria-selected="true"><span>01
           </span>时起卦
           </button><button class="mode-tab" data-mode="manual" role="tab" aria-selected="false"><span>02
-          </span>本卦与互卦
+          </span>卦象分析
           </button><button class="mode-tab" data-mode="random" role="tab" aria-selected="false"><span>03
           </span>随机起卦
+          </button><button class="mode-tab" data-mode="numeric" role="tab" aria-selected="false"><span>04
+          </span>数字起卦
           </button>
         </div>
         <div class="mode-description" id="modeDescription">
@@ -1730,6 +1802,10 @@
             </label>
             <select id="manualHu">
             </select>
+            <label>变卦
+            </label>
+            <select id="manualBian">
+            </select>
             <label>动爻
             </label>
             <select id="manualMove">
@@ -1742,8 +1818,14 @@
               </option>
             </select>
             <div class="manual-note">
-              本卦、互卦按你提供的信息输入；动爻用于确定体用与变卦。可在上方文字框补充事项和求测时间。
+              直接输入本卦、互卦与变卦；动爻从最下方初爻起、自下而上，用于确定体卦与用卦。下方会校验输入卦象关系。
             </div>
+            <div class="manual-check" id="manualCheck" aria-live="polite"></div>
+          </div>
+          <div class="numeric-fields" id="numericFields">
+            <label for="numberInput">起卦数字（1—6位）</label>
+            <input id="numberInput" type="text" inputmode="numeric" autocomplete="off" maxlength="6" pattern="[0-9]{1,6}" placeholder="例如：202610" aria-describedby="numericNote">
+            <div class="numeric-note" id="numericNote">本工具数字起卦规则：前后拆分取上下卦，数字和取动爻；余数为零按8或6计。</div>
           </div>
           <div class="input-bottom">
             <span class="hint">一句话即可，写下人物、时间与所求之事。
@@ -1757,11 +1839,42 @@
           </span>
           <div class="example-links">
             <button id="fill">试试示例 ↗
-            </button><a class="social-link" href="https://www.douyin.com/user/MS4wLjABAAAAf8wEW4836Usm0HYqRodZmckClkF5yFhpjg5sxWwsMh5NfuWXkyr_uE3lvGj_8I4w?from_tab_name=main" target="_blank" rel="noopener noreferrer">抖音主页 ↗
-            </button><a class="social-link" href="https://www.xiaohongshu.com/user/profile/68e7874b000000003201cc4f" target="_blank" rel="noopener noreferrer">小红书主页 ↗
-            </button><a class="social-link" href="https://space.bilibili.com/510195231?spm_id_from=333.1007.0.0" target="_blank" rel="noopener noreferrer">b站主页 ↗
-            </a>
+            </button>
+            <div class="social-links-row">
+              <a
+                class="social-link"
+                href="https://www.douyin.com/user/MS4wLjABAAAAf8wEW4836Usm0HYqRodZmckClkF5yFhpjg5sxWwsMh5NfuWXkyr_uE3lvGj_8I4w?from_tab_name=main"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                抖音主页 ↗
+              </a>
+              <a
+                class="social-link"
+                href="https://www.xiaohongshu.com/user/profile/68e7874b000000003201cc4f"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                小红书 ↗
+              </a>
+              <a
+                class="social-link"
+                href="https://space.bilibili.com/510195231?spm_id_from=333.1007.0.0"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                B站主页 ↗
+              </a>
+            </div>
           </div>
+        </div>
+        <div class="contact-area">
+          <a
+            class="contact-button"
+            href="mailto:2677133851@qq.com?subject=%E7%BD%91%E9%A1%B5%E7%A7%81%E4%BF%A1"
+          >
+            联系我
+          </a>
         </div>
       </section>
       <section class="result" id="result">
@@ -1781,7 +1894,7 @@
         <div class="grid">
           <article class="card primary">
             <div class="label">
-              FAVORED MOMENT · 吉时
+              FAVORED MOMENT · 取象时段
             </div>
             <div class="time" id="time">
               21:18
@@ -2040,16 +2153,20 @@
       };
       let activeMode='time';
       const manualBen=document.getElementById('manualBen'),
-      manualHu=document.getElementById('manualHu');
+      manualHu=document.getElementById('manualHu'),
+      manualBian=document.getElementById('manualBian');
       const hexOptions=Object.keys(pairNames).map(k=>`<option value="${k}">${pairNames[k]}（上${k[0]} · 下${k[1]}）</option>`).join('');
       manualBen.innerHTML=hexOptions;
       manualHu.innerHTML=hexOptions;
-      manualBen.value='离坎';
-      manualHu.value='坎离';
+      manualBian.innerHTML=hexOptions;
+      manualBen.value='坤离';
+      manualHu.value='震坎';
+      manualBian.value='坤艮';
+      document.getElementById('manualMove').value='1';
       function setMode(mode) {
         activeMode=mode;
-        document.getElementById('entry').classList.toggle('entry-manual',
-        mode==='manual');
+        document.getElementById('entry').classList.toggle('entry-manual',mode==='manual');
+        document.getElementById('entry').classList.toggle('entry-numeric',mode==='numeric');
         document.querySelectorAll('.mode-tab').forEach(b=> {
           const on=b.dataset.mode===mode;
           b.classList.toggle('active',
@@ -2059,15 +2176,18 @@
         }  );
         const desc= {
           time:'输入人物、时间与所问之事，以年月日时取数起卦。',
-          manual:'选择你已有的本卦、互卦与动爻，直接按体用关系作分析。',
-          random:'由系统随机取上卦、下卦与动爻，再按梅花易数体用法推演。'
+          manual:'输入你已有的本卦、互卦、变卦与动爻，直接查看完整卦象并分析体用关系。',
+          random:'由系统随机取上卦、下卦与动爻，再按梅花易数体用法推演。',
+          numeric:'输入1至6位数字，按本工具列明的拆分取数规则起卦。'
         }  ;
         document.getElementById('modeDescription').textContent=desc[mode];
         document.getElementById('generate').innerHTML=(mode==='random'?'随机起卦':'开始推演')+' <i>↗</i>';
-        document.querySelector('.input-bottom .hint').textContent=mode==='manual'?'选择本卦、互卦与动爻；文字说明可留空。':mode==='random'?'无需输入也可起卦；也可写下所问之事作为记录。':'一句话即可，写下人物、时间与所求之事。'
+        document.querySelector('.input-bottom .hint').textContent=mode==='manual'?'选择本卦、互卦、变卦与动爻；文字说明可留空。':mode==='numeric'?'输入不超过6位的数字即可起卦。':mode==='random'?'无需输入也可起卦；也可写下所问之事作为记录。':'一句话即可，写下人物、时间与所求之事。'
       }
       document.querySelectorAll('.mode-tab').forEach(b=>b.addEventListener('click',
       ()=>setMode(b.dataset.mode)));
+      const numberInput=document.getElementById('numberInput');
+      numberInput.addEventListener('input',()=>{numberInput.value=numberInput.value.replace(/\D/g,'').slice(0,6)});
       function lunarDayName(n) {
         const d=['',
         '一',
@@ -2199,8 +2319,9 @@
         return b
       }
       function decodeHex(key) {
-        const u=GUA.find(g=>g.name===key[0]),
-        l=GUA.find(g=>g.name===key[1]);
+        const safeKey=typeof key==='string'&&key.length===2?key:'乾乾',
+        u=GUA.find(g=>g&&g.name===safeKey[0])||GUA[1],
+        l=GUA.find(g=>g&&g.name===safeKey[1])||GUA[1];
         return {
           upper:u,
           lower:l,
@@ -2213,8 +2334,34 @@
         return ((n%m)+m)%m||m
       }
       function byLines(ls) {
-        return GUA.slice(1).find(g=>g.lines.join('')===ls.join(''))
+        const safeLines=Array.isArray(ls)?ls.map(v=>Number(v)?1:0):[1,1,1];
+        return GUA.slice(1).find(g=>g&&Array.isArray(g.lines)&&g.lines.join('')===safeLines.join(''))||GUA[1]
       }
+      function refreshManualCheck() {
+        const ben=decodeHex(manualBen.value),
+        hu=decodeHex(manualHu.value),
+        bian=decodeHex(manualBian.value),
+        move=Math.min(6,Math.max(1,parseInt(document.getElementById('manualMove').value,10)||1)),
+        base=ben.lines,
+        mutualLines=[base[1],base[2],base[3],base[2],base[3],base[4]],
+        mutualUpper=byLines(mutualLines.slice(3)),
+        mutualLower=byLines(mutualLines.slice(0,3)),
+        changed=base.map((v,i)=>i===move-1?1-v:v),
+        changedUpper=byLines(changed.slice(3)),
+        changedLower=byLines(changed.slice(0,3)),
+        expectedMutual=pairNames[mutualUpper.name+mutualLower.name]||mutualUpper.name+mutualLower.name,
+        expectedChanged=pairNames[changedUpper.name+changedLower.name]||changedUpper.name+changedLower.name,
+        enteredMutual=pairNames[hu.upper.name+hu.lower.name]||hu.upper.name+hu.lower.name,
+        enteredChanged=pairNames[bian.upper.name+bian.lower.name]||bian.upper.name+bian.lower.name,
+        mutualMatch=hu.lines.join('')===mutualLines.join(''),
+        changedMatch=bian.lines.join('')===changed.join(''),
+        isMatch=mutualMatch&&changedMatch,
+        check=document.getElementById('manualCheck');
+        check.classList.toggle('is-warning',!isMatch);
+        check.textContent=`按本卦推得互卦：${expectedMutual}；${['初','二','三','四','五','上'][move-1]}爻动（自下而上）推得变卦：${expectedChanged}。当前输入互卦：${enteredMutual}，变卦：${enteredChanged}${isMatch?'，三卦与动爻推算一致。':'；输入与推算不完全一致，请核对本卦、互卦、变卦或动爻。'}`
+      }
+      [manualBen,manualHu,manualBian,document.getElementById('manualMove')].forEach(el=>el.addEventListener('change',refreshManualCheck));
+      refreshManualCheck();
       function rel(a,
       b) {
         if(a===b)return '比和';
@@ -2293,7 +2440,9 @@
         const branchIndex=Math.floor(((hour+1)%24)/2),
         branch=shichen[branchIndex],
         branchNum=branchIndex+1,
-        lunar=getLunarParts(dt),
+        // 手动卦与随机卦不依赖农历；只在时起卦模式中解析农历，
+        // 避免浏览器的农历 Intl 支持影响另外两种模式。
+        lunar=activeMode==='time'?getLunarParts(dt):null,
         month=dt.getMonth()+1,
         monthBranch=getJieqiMonthBranch(dt),
         monthWx=( {
@@ -2310,18 +2459,55 @@
           子:'水',
           丑:'土'
         }  )[monthBranch],
-        yearBranchNum=shichen.indexOf(lunar.branch)+1;
+        yearBranchNum=lunar?shichen.indexOf(lunar.branch)+1:0;
+        const seasonalElement=['辰','戌','丑','未'].includes(monthBranch)?'土':
+        ['寅','卯'].includes(monthBranch)?'木':
+        ['巳','午'].includes(monthBranch)?'火':
+        ['申','酉'].includes(monthBranch)?'金':'水',
+        seasonalPhase=(wx)=> {
+          const generates={木:'火',火:'土',土:'金',金:'水',水:'木'},
+          controls={木:'土',土:'水',水:'火',火:'金',金:'木'};
+          if(wx===seasonalElement)return '旺';
+          if(generates[seasonalElement]===wx)return '相';
+          if(generates[wx]===seasonalElement)return '休';
+          if(controls[wx]===seasonalElement)return '囚';
+          return '死'
+        };
         let upper,
         lower,
         moving,
-        providedMutual=null;
+        providedMutual=null,
+        providedChanged=null,
+        numericDescription='';
         if(activeMode==='manual') {
           const ben=decodeHex(manualBen.value),
-          hu=decodeHex(manualHu.value);
+          hu=decodeHex(manualHu.value),
+          bian=decodeHex(manualBian.value);
           upper=ben.upper;
           lower=ben.lower;
           moving=+document.getElementById('manualMove').value;
-          providedMutual=hu.lines
+          providedMutual=hu.lines;
+          providedChanged=bian.lines
+        }
+        else if(activeMode==='numeric') {
+          const digits=numberInput.value.trim();
+          if(!/^\d{1,6}$/.test(digits)) {
+            numberInput.focus();
+            $('#toast').textContent='请输入1至6位数字';
+            $('#toast').classList.add('on');
+            setTimeout(()=>$('#toast').classList.remove('on'),2100);
+            return
+          }
+          const split=Math.ceil(digits.length/2),
+          upperText=digits.slice(0,split),
+          lowerText=digits.slice(split)||upperText,
+          upperNumber=Number(upperText),
+          lowerNumber=Number(lowerText),
+          digitSum=[...digits].reduce((sum,d)=>sum+Number(d),0);
+          upper=GUA[mod(upperNumber,8)];
+          lower=GUA[mod(lowerNumber,8)];
+          moving=mod(digitSum,6);
+          numericDescription=`${digits}拆分为${upperText}与${lowerText}；上卦数${upperNumber}、下卦数${lowerNumber}各除8取余，数字和${digitSum}除6取余定动爻。`
         }
         else if(activeMode==='random') {
           upper=GUA[1+Math.floor(Math.random()*8)];
@@ -2339,7 +2525,7 @@
         }
         const lines=[...lower.lines,
         ...upper.lines],
-        changed=lines.map((v,
+        changed=providedChanged||lines.map((v,
         i)=>i===moving-1?1-v:v),
         mutual=providedMutual||[lines[1],
         lines[2],
@@ -2357,19 +2543,22 @@
         3));
         const ti=moving<=3?upper:lower,
         yong=moving<=3?lower:upper;
+        const bodySeasonPhase=seasonalPhase(ti.wx);
+        const bodyMutual=moving<=3?hUp:hLo,
+        useMutual=moving<=3?hLo:hUp,
+        changedUse=moving<=3?bLo:bUp;
         const relation=rel(ti.wx,
         yong.wx),
         monthRel=rel(ti.wx,
         monthWx),
         monthRelationLabel=monthRel==='用克体'?'月令克体':monthRel==='用生体'?'月令生体':monthRel==='体生用'?'体生月令':monthRel==='体克用'?'体克月令':'月令比和',
         bodyWeak=monthRel==='用克体'||monthRel==='体生用';
+        const bodyMutualRel=rel(ti.wx,bodyMutual.wx),
+        useMutualRel=rel(ti.wx,useMutual.wx),
+        changedRel=rel(ti.wx,changedUse.wx),
+        againstBody=(label,r)=>r==='用生体'?label+'生体':r==='用克体'?label+'克体':r==='体生用'?'体生'+label:r==='体克用'?'体克'+label:label+'与体比和';
         const good=(relation==='用生体'||relation==='比和'||relation==='体克用')&&!bodyWeak;
-        const favorableWx=(ti.wx==='木'?['水',
-        '木']:ti.wx==='火'?['木',
-        '火']:ti.wx==='土'?['火',
-        '土']:ti.wx==='金'?['土',
-        '金']:['金',
-        '水']);
+        const favorableRelations=['用生体','比和','体克用'];
         const favorableBranches=shichen.filter((_,
         i)=> {
           const w=['水',
@@ -2384,7 +2573,7 @@
           '金',
           '土',
           '水'][i];
-          return favorableWx.includes(w)
+          return favorableRelations.includes(rel(ti.wx,w))
         }  );
         const hourRanges=['23:00–01:00',
         '01:00–03:00',
@@ -2412,15 +2601,15 @@
           '金',
           '土',
           '水'][i];
-          return favorableWx.includes(w)
+          return favorableRelations.includes(rel(ti.wx,w))
         }  );
         $('#time').innerHTML=hourRanges[bestIndex].replace('–',
         '<em>—</em>');
         const timeChoices=favorableBranches.map(b=>b+'时（'+hourRanges[shichen.indexOf(b)]+'）').join('、');
         $('#date').textContent='公历 '+dt.getFullYear()+'.'+String(month).padStart(2,
         '0')+'.'+String(dt.getDate()).padStart(2,
-        '0')+'　·　农历 '+lunar.ganzhi+'年'+lunar.monthText+lunarDayName(lunar.day)+'　·　'+monthBranch+'月（'+monthWx+'）　·　吉时 '+favorableBranches.join('、')+'时';
-        $('#parsed').textContent=(activeMode==='manual'?'按给定本互卦分析':activeMode==='random'?'随机取数起卦':'农历'+lunar.ganzhi+'年'+lunar.monthText+lunarDayName(lunar.day)+' · '+branch+'时')+' · 动爻'+['初',
+        '0')+(lunar?'　·　农历 '+lunar.ganzhi+'年'+lunar.monthText+lunarDayName(lunar.day):'')+'　·　'+monthBranch+'月（'+monthWx+'）　·　体卦月令'+bodySeasonPhase+'　·　参考时段 '+favorableBranches.join('、')+'时';
+        $('#parsed').textContent=(activeMode==='manual'?'卦象分析（本互变卦按输入）':activeMode==='numeric'?'数字起卦（'+numberInput.value+'）':activeMode==='random'?'随机取数起卦':'农历'+lunar.ganzhi+'年'+lunar.monthText+lunarDayName(lunar.day)+' · '+branch+'时')+' · 动爻'+['初',
         '二',
         '三',
         '四',
@@ -2446,8 +2635,9 @@
           '坤象地与承载，取平稳踏实之意；桌面清爽、坐姿舒适即可。']
         }  ;
         $('#direction').textContent='面向'+dir;
-        $('#place').textContent=placeMap[ti.name][0];
-        $('#placewhy').textContent=placeMap[ti.name][1];
+        const placeInfo=placeMap[ti.name]||placeMap.乾;
+        $('#place').textContent=placeInfo[0];
+        $('#placewhy').textContent=placeInfo[1];
         const supportWx=( {
           木:'水',
           火:'木',
@@ -2475,38 +2665,32 @@
           $('#placewhy').textContent='月令'+monthBranch+'（'+monthWx+'）克体，体势偏弱；'+sameDir+'方属'+ti.wx+'，与体比和；'+supportDir+'方属'+supportWx+'，生体更佳。方位仅作取象参考，仍以安全舒适、网络稳定为先。'
         }
         else {
-          $('#placewhy').textContent=placeMap[ti.name][1]+' 方位取象：'+sameDir+'方属'+ti.wx+'，与体比和；'+supportDir+'方属'+supportWx+'，生体更佳，面向生体方为优先。'
+          $('#placewhy').textContent=placeInfo[1]+' 方位取象：'+sameDir+'方属'+ti.wx+'，与体比和；'+supportDir+'方属'+supportWx+'，生体更佳，面向生体方为优先。'
         }
-        const wxRole= {
-          木:['木系/成长',
-          '水系/续航',
-          '火系/输出'],
-          火:['火系/输出',
-          '木系/增益',
-          '土系/承伤'],
-          土:['土系/承伤',
-          '火系/增益',
-          '金系/输出'],
-          金:['金系/输出',
-          '土系/增益',
-          '水系/续航'],
-          水:['水系/续航',
-          '金系/辅助',
-          '木系/输出']
-        }
-        [ti.wx];
-        $('#partytitle').textContent='以'+ti.wx+'为体，取生扶之势';
-        $('#team').innerHTML=wxRole.map((x,
-        i)=>`<div class="member party-role ${i===1?'main-pick':i===0?'support-pick':'extra-pick'} wx-${x[0]}" title="${x}"><span class="role-mark">${x[0]}</span><small>${i===1?'生体 · 优先':i===0?'比和 · 同类':'体生 · 参考'}</small><small>${x.slice(3)}</small></div>`).join('');
-        $('#partycopy').textContent='三类属性均可用于配队取象：优先考虑生体属性，其次比和同类；体生属性可作辅助参考，因体生用有耗泄之意。具体角色仍需结合游戏机制。';
+        const elementNames={木:'木系',火:'火系',土:'土系',金:'金系',水:'水系'},
+        relationLabels={'用生体':'生体 · 优先','比和':'比和 · 同类','体克用':'体克用 · 可参考','体生用':'体生用 · 有耗','用克体':'用克体 · 不推荐'},
+        rank={'用生体':0,'比和':1,'体克用':2,'体生用':3,'用克体':4},
+        elementOptions=['木','火','土','金','水'].map(wx=>({wx,relation:rel(ti.wx,wx)})).sort((a,b)=>rank[a.relation]-rank[b.relation]);
+        $('#partytitle').textContent='以'+ti.wx+'为体 · 五行关系取象';
+        $('#team').innerHTML=elementOptions.map(({wx,relation})=> {
+          const status=rank[relation]<=2?'recommended':relation==='用克体'?'not-recommended':'neutral-pick',
+          stateLabel=relation==='用克体'?`⛔ ${relationLabels[relation]}`:relationLabels[relation];
+          return `<div class="member party-role ${status} ${relation==='用生体'?'main-pick':rank[relation]===1?'support-pick':''} wx-${wx}" title="${elementNames[wx]}：${relation}，${rank[relation]<=2?'推荐':'不推荐'}"><span class="role-mark">${wx}</span><small>${stateLabel}</small><small>${elementNames[wx]}</small></div>`
+        }).join('');
+        $('#partycopy').textContent='彩色卡片为推荐取象（用生体、比和、体克用）；红色禁用标记为不推荐（用克体）；白底表示体生用，有耗泄、仅作参考。只展示卦理方向，不对应具体游戏角色，也不改变卡池概率。';
         const hexname=(a,
-        b)=>pairNames[a.name+b.name]||a.name+b.name;
+        b)=> {
+          const safeA=a&&a.name?a:GUA[1],
+          safeB=b&&b.name?b:GUA[1],
+          key=safeA.name+safeB.name;
+          return pairNames[key]||key
+        };
         $('#hex').textContent='本卦 '+hexname(up,
         lo)+' → 互卦 '+hexname(hUp,
         hLo)+' → 变卦 '+hexname(bUp,
         bLo);
-        const reading=relation==='体克用'&&monthRel==='用克体'?`体克用本为有利，但${monthWx}月令克体，体势偏弱，宜取${supportWx}生扶。`:good?'体用关系与月令配合尚顺，可择生体或比和之时行动。':'体生用为泄，月令生体为助，吉中有耗。';
-        $('#analysis').textContent=`体卦为${ti.name}（${ti.wx}），用卦为${yong.name}（${yong.wx}），体用关系为“${relation}”；月建为${monthBranch}月（${monthWx}），对体卦为“${monthRelationLabel}”。${reading}互卦${hexname(hUp,hLo)}看过程，变卦${hexname(bUp,bLo)}看后势。`;
+        const reading=relation==='体克用'&&monthRel==='用克体'?`体克用在旧诀中属有利取象，但月令克体，需同时看体势，不宜只凭一项定吉凶。`:good?'本卦体用关系偏顺；仍需结合互卦、变卦与月令，不据此断定抽卡结果。':'本卦有泄耗或受制之处，应合看后续卦与月令。';
+        $('#analysis').textContent=`本卦：体${ti.name}${ti.wx}、用${yong.name}${yong.wx}，${relation}。月令：${monthBranch}月属${monthWx}，体卦按简化四时法为${bodySeasonPhase}。互卦${hexname(hUp,hLo)}：体互${bodyMutual.name}${bodyMutual.wx}，${againstBody('体互',bodyMutualRel)}；用互${useMutual.name}${useMutual.wx}，${againstBody('用互',useMutualRel)}。水生木、木克土可作为互卦整体的延伸取象，但不应把它拆成两条独立的克体结论。变卦${hexname(bUp,bLo)}：用${changedUse.name}${changedUse.wx}，${againstBody('变卦用',changedRel)}。${reading}互卦仅作过程取象，变卦仅作后势取象；不能由卦象推出“必得”或实际抽卡概率。`;
         const yaoWords=['初爻发动，始事宜审慎，先察后行。',
         '二爻发动，守中履正，按计划稳步推进。',
         '三爻发动，事情在进退间，避免情绪化加码。',
@@ -2532,7 +2716,10 @@
         }
         const renderHex=(name,
         g,
-        move)=>`<div class="hexitem"><div class="hexname">${name}</div><div class="hexsym">${g.sym}</div><div>${g.name} · ${g.wx} · ${g.wx==='金'?'西':g.wx==='木'?'东':g.wx==='水'?'北':g.wx==='火'?'南':'中'}方</div>${g.lines.map((v,i)=>`<div class="line ${v?'':'broken'} ${move===i?'moving':''}">${v?'━━━━━━':'━━　━━'}${move===i?'　动':''}</div>`).reverse().join('')}</div>`;
+        move)=> {
+          const safeG=g&&Array.isArray(g.lines)?g:GUA[1];
+          return `<div class="hexitem"><div class="hexname">${name}</div><div class="hexsym">${safeG.sym}</div><div>${safeG.name} · ${safeG.wx} · ${safeG.wx==='金'?'西':safeG.wx==='木'?'东':safeG.wx==='水'?'北':safeG.wx==='火'?'南':'中'}方</div>${safeG.lines.map((v,i)=>`<div class="line ${v?'':'broken'} ${move===i?'moving':''}">${v?'━━━━━━':'━━　━━'}${move===i?'　动':''}</div>`).reverse().join('')}</div>`
+        };
         $('#hexgrid').innerHTML=renderHex('本卦上卦',
         up,
         moving>=4?moving-4:-1)+renderHex('本卦下卦',
@@ -2546,7 +2733,7 @@
         -1)+renderHex('变卦下卦',
         bLo,
         -1);
-        const methodText=activeMode==='manual'?`所据：本卦${hexname(up,lo)}，互卦${hexname(hUp,hLo)}，${['初','二','三','四','五','上'][moving-1]}爻动。体用依动爻所在上下卦确定；互卦采用你提供的卦象。`:activeMode==='random'?`随机取数：上卦${upper.name}（${upper.wx}），下卦${lower.name}（${lower.wx}），${['初','二','三','四','五','上'][moving-1]}爻动。体用按动爻所在上下卦确定；月令按节令简化估算。`:`取数：农历${lunar.ganzhi}年${lunar.monthText}${lunarDayName(lunar.day)}，年支${yearBranchNum}，${branch}时取数${branchNum}。上卦＝（年支数＋农历月＋农历日）除8取余；下卦＝（上数＋时支数）除8取余；动爻＝（上数＋时支数）除6取余。月建按节气推定为${monthBranch}月（${monthWx}）。`;
+        const methodText=activeMode==='manual'?`直接按输入显示：本卦${hexname(up,lo)}、互卦${hexname(hUp,hLo)}、变卦${hexname(bUp,bLo)}；${['初','二','三','四','五','上'][moving-1]}爻用于确定体用。系统同时按本卦与动爻提示互卦、变卦是否一致。`:activeMode==='numeric'?`数字起卦（本工具规则）：${numericDescription}上卦为${upper.name}、下卦为${lower.name}、${['初','二','三','四','五','上'][moving-1]}爻动。月建按节气推定为${monthBranch}月（${monthWx}）。`:activeMode==='random'?`随机取数：上卦${upper.name}（${upper.wx}），下卦${lower.name}（${lower.wx}），${['初','二','三','四','五','上'][moving-1]}爻动。体用按动爻所在上下卦确定；月令按节令简化估算。`:`取数：农历${lunar.ganzhi}年${lunar.monthText}${lunarDayName(lunar.day)}，年支${yearBranchNum}，${branch}时取数${branchNum}。上卦＝（年支数＋农历月＋农历日）除8取余；下卦＝（上数＋时支数）除8取余；动爻＝（上数＋时支数）除6取余。月建按节气推定为${monthBranch}月（${monthWx}）。`;
         $('#method').textContent=methodText;
         $('#result').classList.add('show');
         setTimeout(()=>$('#result').scrollIntoView( {
@@ -2565,7 +2752,7 @@
         }
         catch(error) {
           console.error(error);
-          $('#toast').textContent='推演遇到问题，请刷新后重试';
+          $('#toast').textContent=error&&error.message?error.message:'推演遇到问题，请刷新后重试';
           $('#toast').classList.add('on');
           setTimeout(()=>$('#toast').classList.remove('on'),
           3000)
