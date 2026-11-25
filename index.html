@@ -148,9 +148,12 @@
     .armillary-stage::before { content: ""; position: absolute; width: 390px; height: 390px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, rgba(255,252,246,.96), rgba(206,220,255,.5) 55%, rgba(253,218,232,.3)); filter: blur(.2px); }
     .armillary-hint { position: absolute; top: 4px; z-index: 3; color: var(--muted); font: 10px var(--mono); letter-spacing: .12em; }
     .armillary { position: relative; width: 340px; height: 340px; transform-style: preserve-3d; transform: rotateX(-19deg) rotateY(-26deg); transition: transform .08s linear; }
-    .arm-sphere { position: absolute; inset: 78px; display: grid; place-items: center; overflow: hidden; border: 1px solid rgba(255,255,255,.72); border-radius: 50%; background: radial-gradient(circle at 32% 25%, #fff 0 3%, #f5f7ff 11%, #90a7f5 43%, #3b5de0 70%, #102879); box-shadow: inset -24px -19px 32px rgba(10,31,92,.28), inset 12px 9px 23px rgba(255,255,255,.62), 0 18px 45px rgba(36,73,216,.25); }
-    .arm-sphere::before { content: ""; position: absolute; top: 13%; left: 20%; width: 43%; height: 21%; border-radius: 50%; background: rgba(255,255,255,.5); filter: blur(11px); transform: rotate(-28deg); }
-    .arm-sphere b { position: relative; color: #fff; font: 400 64px var(--serif); text-shadow: 0 3px 18px rgba(8,28,86,.46); }
+    /* 球体：4:1 贴图条自左向右平移，形成自转的地球；纯 CSS，无外部脚本 */
+    .arm-sphere { position: absolute; inset: 78px; overflow: hidden; border: 1px solid rgba(255,255,255,.72); border-radius: 50%; background: #0c1c46; box-shadow: 0 18px 45px rgba(36,73,216,.25), inset 0 0 24px rgba(6,17,52,.6); }
+    .arm-sphere-map { position: absolute; left: 0; top: 0; width: 400%; height: 100%; background: url("./assets/earth-strip.jpg") 0 0 / 100% 100% no-repeat; animation: earthSpin 26s linear infinite; will-change: transform; }
+    @keyframes earthSpin { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .arm-sphere::after { content: ""; position: absolute; z-index: 1; inset: 0; border-radius: 50%; pointer-events: none; background: radial-gradient(circle at 32% 25%, rgba(255,255,255,.5) 0 4%, rgba(255,255,255,.18) 14%, rgba(144,167,245,.1) 46%, rgba(22,48,132,.34) 74%, rgba(8,22,66,.72) 100%); box-shadow: inset -20px -16px 30px rgba(8,22,66,.42), inset 10px 8px 22px rgba(255,255,255,.22); }
+    .arm-sphere::before { content: ""; position: absolute; z-index: 2; top: 13%; left: 20%; width: 43%; height: 21%; border-radius: 50%; background: rgba(255,255,255,.32); filter: blur(11px); transform: rotate(-28deg); }
     .track { position: absolute; inset: 50px 0; border: 1px solid rgba(36,73,216,.48); border-radius: 50%; transform-style: preserve-3d; }
     .track i { position: absolute; top: 50%; left: -4px; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 5px rgba(36,73,216,.11); }
     .track-a { transform: rotateX(72deg) rotateY(8deg); animation: spinA 36s linear infinite; }
@@ -272,6 +275,37 @@
     .again-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; color: var(--teal); font-size: 12px; text-decoration: none; }
     .again-link:hover { text-decoration: underline; }
 
+    /* 象 · 应 · 类 */
+    .nature-section { padding: 6px 0 74px; }
+    .nature-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 16px; align-items: start; }
+    .nature-col { display: grid; gap: 16px; }
+    .nature-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+    .nature { padding: 13px 14px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255, 251, 244, .86); }
+    .nature-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 7px; }
+    .nature-head h4 { margin: 0; color: var(--ink); font: 500 15px var(--serif); }
+    .nature-head small { color: var(--faint); font: 9px var(--mono); letter-spacing: .08em; }
+    .kv { display: grid; grid-template-columns: 26px 1fr; gap: 2px 8px; color: var(--muted); font-size: 10.5px; line-height: 1.75; }
+    .kv i { color: var(--teal-dark); font-style: normal; }
+    .kv span { min-width: 0; }
+    .wai-list { display: grid; gap: 10px; margin-top: 14px; }
+    .wai-item { padding: 11px 13px; border-left: 2px solid rgba(36, 73, 216, .55); background: rgba(233, 237, 255, .5); }
+    .wai-item b { display: block; margin-bottom: 4px; color: var(--ink); font: 500 13px var(--serif); }
+    .wai-item span { color: var(--muted); font-size: 10.5px; line-height: 1.75; }
+    .wai-scale { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .wai-scale i { padding: 4px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font: 10px var(--mono); font-style: normal; }
+    .lei-main { margin-top: 14px; padding: 15px 16px; border: 1px solid var(--line-strong); border-radius: 13px; background: rgba(233, 237, 255, .42); }
+    .lei-main h4 { margin: 0 0 9px; color: var(--ink); font: 500 16px var(--serif); }
+    .lei-main .kv { margin-top: 2px; }
+    .lei-more { margin-top: 12px; color: var(--muted); font-size: 10.5px; line-height: 1.8; }
+    .gua-ci { margin: 0 0 10px; padding: 9px 12px; border-left: 2px solid var(--gold); background: rgba(253, 234, 242, .45); color: var(--ink-soft); font: 12.5px/1.8 var(--serif); }
+    .yao-origin { margin: 0 0 12px; color: var(--ink); font: 500 15px/1.9 var(--serif); }
+    .yao-list { display: grid; gap: 3px; margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); }
+    .yao-row-item { display: grid; grid-template-columns: 34px 1fr; gap: 8px; color: var(--muted); font-size: 10.5px; line-height: 1.7; }
+    .yao-row-item em { color: var(--faint); font-style: normal; font-variant-numeric: tabular-nums; }
+    .yao-row-item.on { color: var(--rose); font-weight: 600; }
+    .yao-row-item.on em { color: var(--rose); }
+    .source-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--faint); font-size: 9.5px; line-height: 1.8; }
+
     .footer { display: flex; justify-content: space-between; gap: 24px; padding: 25px 0 34px; border-top: 1px solid var(--line); color: var(--muted); font-size: 10px; line-height: 1.8; }
     .footer b { color: var(--teal); font-weight: 500; }
     .toast { position: fixed; bottom: 28px; left: 50%; z-index: 60; max-width: min(520px, calc(100% - 36px)); padding: 12px 19px; border-radius: 999px; color: #fff; background: var(--teal-dark); box-shadow: 0 12px 35px rgba(25, 53, 172, .3); font-size: 12px; line-height: 1.6; text-align: center; opacity: 0; pointer-events: none; transform: translate(-50%, 16px); transition: .25s; }
@@ -285,6 +319,7 @@
       .result-layout { grid-template-columns: 1fr; }
       .result-side { grid-template-columns: 1fr 1fr; align-items: start; }
       .result-side .analysis-card { grid-column: 1/-1; }
+      .nature-layout { grid-template-columns: 1fr; }
     }
     @media (max-width: 760px) {
       .wrap { width: min(100% - 34px, 620px); }
@@ -327,6 +362,8 @@
       .recommend { grid-template-columns: 1fr; }
       .time { font-size: 41px; }
       .hexgrid { gap: 6px; }
+      .nature-grid { grid-template-columns: 1fr; }
+      .nature-section { padding-bottom: 52px; }
       .hexitem { padding-inline: 5px; }
       .team { gap: 5px; }
       .member { min-height: 82px; }
@@ -387,7 +424,7 @@
       <div class="armillary-stage" id="armillaryStage">
         <div class="armillary-hint" data-i18n="armillaryHint">拖动星仪 · 方向键亦可旋转</div>
         <div class="armillary" id="armillary" role="img" tabindex="0" aria-label="可拖动或用方向键旋转的三维星仪" data-i18n-aria="armillaryAria">
-          <div class="arm-sphere"><b>机</b></div>
+          <div class="arm-sphere"><div class="arm-sphere-map"></div></div>
           <div class="track track-a"><i></i></div>
           <div class="track track-b"><i></i></div>
           <div class="track track-c"><i></i></div>
@@ -530,13 +567,49 @@
           </article>
 
           <article class="card">
-            <div class="card-label" data-i18n="yaoLabel">MOVING LINE · 爻辞取意</div>
+            <div class="card-label" data-i18n="yaoLabel">MOVING LINE · 爻辞</div>
+            <div class="gua-ci" id="guaci"></div>
+            <div class="yao-origin" id="yaoOrigin"></div>
             <div class="poem" id="poem"></div>
-            <div class="poem-meta" data-i18n="poemMeta">动爻爻辞取意 · 非经典原文 · 仅作文化参考</div>
+            <div class="poem-meta" data-i18n="poemMeta">原文据《周易》 · 白话取意为概述 · 仅作文化参考</div>
+            <div class="yao-list" id="yaoList"></div>
             <a class="again-link" href="#entry"><span data-i18n="askAgain">再写一问</span><span aria-hidden="true">↑</span></a>
           </article>
         </div>
       </div>
+    </section>
+
+    <section class="nature-section" id="nature" aria-labelledby="natureTitle" hidden>
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">03 / IMAGE · OMEN · MATTER</div>
+          <h2 class="section-title" id="natureTitle" data-i18n="natureTitle">象与应 · 按卦取象</h2>
+        </div>
+        <p class="section-note" data-i18n="natureNote">卦象只提供观察的角度：先取形，再取用，最后回到常理。</p>
+      </div>
+      <div class="nature-layout">
+        <article class="card">
+          <div class="card-label" data-i18n="xiangLabel">IMAGES · 卦象类象</div>
+          <h3 class="card-title" id="xiangTitle"></h3>
+          <div class="card-copy" id="xiangCopy"></div>
+          <div class="nature-grid" id="xiangGrid"></div>
+        </article>
+        <div class="nature-col">
+          <article class="card">
+            <div class="card-label" data-i18n="waiLabel">OMENS · 外应观察</div>
+            <div class="card-copy" id="waiCopy"></div>
+            <div class="wai-list" id="waiList"></div>
+            <div class="wai-scale" id="waiScale"></div>
+          </article>
+          <article class="card">
+            <div class="card-label" data-i18n="leiLabel">MATTERS · 万事类卦</div>
+            <div class="card-copy" id="leiCopy"></div>
+            <div class="lei-main" id="leiMain"></div>
+            <div class="lei-more" id="leiMore"></div>
+          </article>
+        </div>
+      </div>
+      <p class="source-note" id="sourceNote" data-i18n="sourceNote"></p>
     </section>
   </main>
 
@@ -545,6 +618,13 @@
     <span data-i18n="footerDisclaimer">文化娱乐与自我反思用途 · 不能推定游戏概率或现实结果</span>
   </footer>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- 资料分文件存放：卦辞爻辞、八卦类象、外应、万事类卦、地点词库 -->
+  <script src="./data/yaoci.js"></script>
+  <script src="./data/xiang.js"></script>
+  <script src="./data/waijing.js"></script>
+  <script src="./data/leigua.js"></script>
+  <script src="./data/place.js"></script>
 
   <script>
     'use strict';
@@ -577,10 +657,14 @@
         douyin: '抖音主页 ↗', rednote: '小红书 ↗', bilibili: 'B 站主页 ↗', contact: '联系创作者 ↗',
         resultEmptyTitle: '此刻，静候一问', resultEmptyMeta: '完成推演后，这里会显示起卦信息与动爻', resultTitle: '此刻宜顺势而为',
         emptyHeading: '卦盘尚未展开', emptyCopy: '选择一种方式并完成推演，即可查看取象时段、体用关系、三卦变化与爻辞取意。',
-        momentLabel: 'FAVORED MOMENT · 取象时段', directionLabel: '方位建议', placeLabel: '推荐地点', hexPanelLabel: '梅花易数 · 三卦卦盘',
-        partyLabel: 'ELEMENTS · 五行关系', analysisLabel: 'READING · 象意简析', yaoLabel: 'MOVING LINE · 爻辞取意',
+        momentLabel: 'FAVORED MOMENT · 取象时段', directionLabel: '方位建议', hexPanelLabel: '梅花易数 · 三卦卦盘',
+        partyLabel: 'ELEMENTS · 五行关系', analysisLabel: 'READING · 象意简析', yaoLabel: 'MOVING LINE · 爻辞',
         partyCopy: '深绿边框为优先取象，虚线为同类参考；红色表示用克体，不推荐；浅色表示体生用，有所耗泄。这里只展示卦理方向，不对应具体游戏角色，也不改变卡池概率。',
-        poemMeta: '动爻爻辞取意 · 非经典原文 · 仅作文化参考', askAgain: '再写一问',
+        poemMeta: '原文据《周易》 · 白话取意为概述 · 仅作文化参考', askAgain: '再写一问',
+        natureTitle: '象与应 · 按卦取象', natureNote: '卦象只给观察的角度：本卦取形，变卦取用，最后回到常理。',
+        xiangLabel: 'IMAGES · 卦象类象', waiLabel: 'OMENS · 外应观察', leiLabel: 'MATTERS · 万事类卦',
+        placeLabel: '推荐地点 · 本卦取形 · 变卦取用',
+        sourceNote: '卦辞爻辞据《周易》公有领域底本；八卦类象、外应与万事类卦据《梅花易数》卷一至卷三的常见说法整理；地点词库为取象用语，不对应具体场地，也不作安全判断。',
         footerBrand: '玄签 · 时序推演', footerMethod: '／ 以传统取象规则推演，体用生克参看', footerDisclaimer: '文化娱乐与自我反思用途 · 不能推定游戏概率或现实结果',
         descTime: '输入人物、时间与所问之事，以农历年月日时取数起卦。支持“今晚九点”“明天上午十点”等写法。',
         descManual: '选择已有的本卦、互卦、变卦与动爻，直接查看完整卦盘与体用关系；文字说明可留空。',
@@ -611,10 +695,14 @@
         douyin: 'Douyin ↗', rednote: 'Xiaohongshu ↗', bilibili: 'Bilibili ↗', contact: 'Contact the creator ↗',
         resultEmptyTitle: 'A quiet moment awaits', resultEmptyMeta: 'Your casting details and moving line will appear here', resultTitle: 'Move with the moment',
         emptyHeading: 'Your hexagrams are not cast yet', emptyCopy: 'Choose a method and cast to reveal a reflective time window, Body–Use relations, three hexagrams, and the moving line.',
-        momentLabel: 'FAVORED MOMENT · TIME WINDOW', directionLabel: 'Direction', placeLabel: 'Suggested setting', hexPanelLabel: 'PLUM BLOSSOM · HEXAGRAM MAP',
-        partyLabel: 'ELEMENTS · FIVE PHASES', analysisLabel: 'READING · INTERPRETATION', yaoLabel: 'MOVING LINE · REFLECTION',
+        momentLabel: 'FAVORED MOMENT · TIME WINDOW', directionLabel: 'Direction', hexPanelLabel: 'PLUM BLOSSOM · HEXAGRAM MAP',
+        partyLabel: 'ELEMENTS · FIVE PHASES', analysisLabel: 'READING · INTERPRETATION', yaoLabel: 'MOVING LINE · LINE TEXT',
         partyCopy: 'A solid green border marks the preferred phase; dashed marks a kindred phase. Red indicates Use controlling Body and is not recommended; pale indicates Body generating Use and some depletion. These are symbolic directions only—not specific game characters or changed odds.',
-        poemMeta: 'An interpretation of the moving line · Not canonical text · For cultural reflection', askAgain: 'Ask another question',
+        poemMeta: 'Original text from the Zhou Yi · Interpretation is a paraphrase · For cultural reflection', askAgain: 'Ask another question',
+        natureTitle: 'Image, omen, matter', natureNote: 'The hexagram only supplies an angle: form from the primary, use from the changed, then return to plain reasoning.',
+        xiangLabel: 'IMAGES · TRIGRAM IMAGERY', waiLabel: 'OMENS · WHAT TO NOTICE', leiLabel: 'MATTERS · CATEGORY OF THE QUESTION',
+        placeLabel: 'Suggested setting · form from primary, use from changed',
+        sourceNote: 'Judgment and line texts follow a public-domain edition of the Zhou Yi. Trigram imagery, omens and categories are summarised from the usual Plum Blossom readings; the place vocabulary is symbolic and makes no claim about any real venue or its safety.',
         footerBrand: 'Xuan Qian · A ritual of time', footerMethod: '／ Traditional symbolism and Body–Use relationships', footerDisclaimer: 'For cultural reflection and entertainment · Does not predict game odds or real-world outcomes',
         descTime: 'Enter a person, time, and question to cast from the lunar date and double-hour. Phrases such as “tonight at 9 PM” and “tomorrow at 10 AM” are supported.',
         descManual: 'Choose an existing primary, mutual, and changed hexagram plus a moving line. The written question is optional.',
@@ -1036,27 +1124,25 @@
         ? `面向${directionName(supportDir)} · ${supportWx}生体优先`
         : `Face ${directionName(supportDir)} · ${elementName(supportWx)} supports Body`;
 
-      const places = {
-        乾:{zh:['开阔高处或视野通透的房间','乾象天与开阔，取明朗通透之意；选室内稳定、网络顺畅的位置即可。'],en:['An open room with a clear view','Qian suggests open sky and clarity. Choose a stable indoor setting with a reliable connection.']},
-        兑:{zh:['整洁舒适、让人放松的角落','兑象泽与悦，取舒适愉悦之意；避开喧闹拥挤处，保持心情轻松。'],en:['A tidy, comfortable corner','Dui suggests ease and joy. Avoid noisy crowds and choose a setting that helps you relax.']},
-        离:{zh:['采光良好的书桌或明亮室内','离象火与明，取明亮清楚之意；光线充足、屏幕清晰即可，无需使用明火。'],en:['A bright desk with good lighting','Li suggests fire and illumination. Good light and a clear screen are enough; no actual flame is needed.']},
-        震:{zh:['靠窗或有自然生气的安静空间','震象动与生发，取清新有生气之意；选择不被打断、坐得安稳的位置。'],en:['A quiet space near natural light','Zhen suggests movement and growth. Choose a fresh, calm place where you will not be interrupted.']},
-        巽:{zh:['通风、整洁而不嘈杂的室内','巽象风与入，取通达流畅之意；空气流通、网络稳定即可。'],en:['A tidy, well-ventilated room','Xun suggests wind and gentle entry. Fresh air and a steady connection matter most.']},
-        坎:{zh:['安静、背后有靠的室内座位','坎象水与静，取沉静专注之意；不必临水，优先选择安全、少干扰的位置。'],en:['A quiet seat with a supported back','Kan suggests water and stillness. You need not be near water; choose a safe, low-distraction seat.']},
-        艮:{zh:['背后有靠、界限清楚的安静角落','艮象山与止，取安定收心之意；选择稳当少扰的位置，便于按计划行动。'],en:['A settled corner with a supported back','Gen suggests mountain and stillness. Choose a grounded place that supports a deliberate pace.']},
-        坤:{zh:['平整宽敞、布置简洁的室内','坤象地与承载，取平稳踏实之意；桌面清爽、坐姿舒适即可。'],en:['A spacious, simply arranged room','Kun suggests earth and support. A clear desk and comfortable posture are enough.']}
-      };
-      const place = places[r.ti.name] || places.乾;
+      /* 推荐地点：本卦取形（上卦为外、下卦为内），变卦取用（上卦为事、下卦为身） */
+      const PLACE = window.XQ_PLACE || {};
+      const pf = (t) => PLACE[t.name] || PLACE.乾;
+      const formOut = pf(r.upper), formIn = pf(r.lower), useAct = pf(r.changedUpper), useBody = pf(r.changedLower);
+
       $('#place').textContent = bodyWeak
-        ? (lang === 'zh' ? '背后有靠、安静舒适的室内' : 'A quiet, comfortable seat with back support')
-        : place[lang][0];
+        ? (lang === 'zh'
+            ? `${formOut.wai}，${formIn.nei}；体势偏弱，坐处宁稳勿动。`
+            : `${formOut.en.wai}; ${formIn.en.nei}. Body is depleted, so keep the seat steady and stay put.`)
+        : (lang === 'zh'
+            ? `${formOut.wai}，${formIn.nei}；宜${useAct.yong}，${useBody.shen}。`
+            : `${formOut.en.wai}; ${formIn.en.nei}. Suited to ${useAct.en.yong}; ${useBody.en.shen}.`);
 
       const directionDetail = lang === 'zh'
         ? `${sameDir}方属${r.ti.wx}，与体比和；${supportDir}方属${supportWx}，生体更佳。方位仅作取象参考，以安全舒适为先。`
         : `${directionName(sameDir)} is ${elementName(r.ti.wx)}, kindred with Body; ${directionName(supportDir)} is ${elementName(supportWx)} and supports Body. Directions are symbolic only—safety and comfort come first.`;
-      $('#placewhy').textContent = bodyWeak
-        ? (lang === 'zh' ? `月令${r.monthBranch}（${r.monthWx}）使体势偏弱；${directionDetail}` : `The ${branchName(r.monthBranch)} month leaves Body relatively depleted. ${directionDetail}`)
-        : `${place[lang][1]} ${directionDetail}`;
+      $('#placewhy').textContent = `${lang === 'zh'
+        ? `本卦${hexName(r.upper, r.lower)}（上${r.upper.name}下${r.lower.name}）取形：外取${formOut.xiang}，内取${formIn.xiang}；变卦${hexName(r.changedUpper, r.changedLower)}（上${r.changedUpper.name}下${r.changedLower.name}）取用：${useAct.xiang}，身取${useBody.xiang}。`
+        : `Form from the primary hexagram (upper ${r.upper.en}, lower ${r.lower.en}); use from the changed one (upper ${r.changedUpper.en}, lower ${r.changedLower.en}).`} ${directionDetail}`;
 
       const rank = {'用生体':0,'比和':1,'体克用':2,'体生用':3,'用克体':4};
       const elementOptions = ['木','火','土','金','水'].map(wx => ({ wx, relation:rel(r.ti.wx, wx) })).sort((a,b) => rank[a.relation] - rank[b.relation]);
@@ -1105,6 +1191,9 @@
         $('#poem').textContent = lang === 'zh' ? `${movingName(r.moving)}取意：${yaoZh[r.moving-1]}` : `Line ${r.moving}: ${yaoEn[r.moving-1]}`;
       }
 
+      paintYaoText(r);
+      paintNature(r);
+
       const renderHex = (label, trigram, moveIndex) => {
         const dir = {金:'西',木:'东',水:'北',火:'南',土:'中'}[trigram.wx];
         return `<div class="hexitem"><div class="hexname">${label}</div><div class="hexsym">${trigram.sym}</div><div class="hexmeta">${trigramName(trigram)}<br>${directionName(dir)}</div>${trigram.lines.map((value,index) => `<div class="line ${value ? '' : 'broken'} ${moveIndex === index ? 'moving' : ''}">${value ? '━━━━━━' : '━━　━━'}${moveIndex === index ? ' · ' + t('moving') : ''}</div>`).reverse().join('')}</div>`;
@@ -1147,6 +1236,100 @@
       $('#emptyResult').hidden = true;
       $('#resultContent').hidden = false;
       if (shouldScroll) setTimeout(() => $('#result').scrollIntoView({ behavior:'smooth', block:'start' }), 80);
+    }
+
+    /* 爻辞原文：本卦全部爻辞取自 data/yaoci.js，动爻高亮 */
+    function paintYaoText(r) {
+      const books = window.XQ_YAOCI || {};
+      const rec = books[r.upper.name + r.lower.name];
+      const gua = $('#guaci'), origin = $('#yaoOrigin'), list = $('#yaoList');
+      if (!rec) { gua.textContent = ''; origin.textContent = ''; list.innerHTML = ''; return; }
+      gua.textContent = lang === 'zh' ? `卦辞：${rec.gua}` : `Judgment: ${rec.gua}`;
+      origin.textContent = rec.yao[r.moving - 1] || '';
+      list.innerHTML = rec.yao.map((text, index) => {
+        const on = index === r.moving - 1;
+        return `<div class="yao-row-item ${on ? 'on' : ''}"><em>${on ? '●' : '·'}</em><span>${text}</span></div>`;
+      }).join('');
+    }
+
+    /* 象与应：八卦类象、外应、万事类卦，均按当前卦象选取 */
+    function paintNature(r) {
+      const XIANG = window.XQ_XIANG || {};
+      const WAJING = window.XQ_WAIJING || {};
+      const LEI = window.XQ_LEIGUA || [];
+      const block = $('#nature');
+      if (!block) return;
+
+      $('#xiangTitle').textContent = `${hexName(r.upper, r.lower)} → ${hexName(r.changedUpper, r.changedLower)}`;
+      $('#xiangCopy').textContent = lang === 'zh'
+        ? '同一现象可归多卦，下表只列各卦最常用的主象。取象时以所问的语境定主次，类象不是实物对照表。'
+        : 'One phenomenon can belong to several trigrams; only the leading images are listed. Context decides which one leads — this is not a lookup table of real objects.';
+
+      const labels = {
+        shang: lang === 'zh' ? '本卦上卦' : 'primary upper',
+        xia: lang === 'zh' ? '本卦下卦' : 'primary lower',
+        bianShang: lang === 'zh' ? '变卦上卦' : 'changed upper',
+        bianXia: lang === 'zh' ? '变卦下卦' : 'changed lower'
+      };
+      const slots = [
+        [labels.shang, r.upper], [labels.xia, r.lower],
+        [labels.bianShang, r.changedUpper], [labels.bianXia, r.changedLower]
+      ];
+      const kv = (label, text) => `<div class="kv"><i>${label}</i><span>${text}</span></div>`;
+      const zhKey = (zh, en) => (lang === 'zh' ? zh : en);
+      const grouped = [];
+      slots.forEach(([label, tg]) => {
+        const hit = grouped.find((item) => item.tg.name === tg.name);
+        if (hit) hit.labels.push(label); else grouped.push({ tg, labels: [label] });
+      });
+      $('#xiangGrid').innerHTML = grouped.map(({ tg, labels: tagLabels }) => {
+        const x = XIANG[tg.name] || {};
+        return `<div class="nature">
+          <div class="nature-head"><h4>${tg.name} · ${tg.wx}</h4><small>${tagLabels.join(' · ')}</small></div>
+          ${kv(zhKey('象', 'Image'), `${x.xiang || ''}｜${x.ti || ''}`)}
+          ${kv(zhKey('形', 'Shape'), x.xingZhuang || '')}
+          ${kv(zhKey('物', 'Object'), x.wu || '')}
+          ${kv(zhKey('人', 'Person'), x.ren || '')}
+          ${kv(zhKey('动', 'Act'), x.dong || '')}
+          ${kv(zhKey('方', 'Dir'), `${x.fang || ''} · ${x.shu || ''}`)}
+        </div>`;
+      }).join('');
+
+      const cats = WAJING.categories || [];
+      const seen = new Set();
+      const picks = [r.upper, r.lower, r.changedUpper]
+        .map((tg) => ({ tg, m: (WAJING.byTrigram || {})[tg.name] }))
+        .filter((item) => item.m && !seen.has(item.tg.name) && seen.add(item.tg.name));
+      $('#waiCopy').textContent = lang === 'zh'
+        ? '外应取起卦当下偶发、鲜明、与所问有关的现象：先记事实，再定角色，最后与体用合看。单一巧合不足以断结果。'
+        : 'Omens are the incidental yet vivid details present at the moment of casting: record the fact, assign its role, then read it against Body and Use. One coincidence is not a conclusion. Cues stay in Chinese.';
+      $('#waiList').innerHTML = picks.map(({ tg, m }) => {
+        const cat = cats.find((item) => item.id === m.category) || {};
+        return `<div class="wai-item"><b>${tg.name} · ${cat.name || ''}</b><span>${m.miao}</span><span>${lang === 'zh' ? '可记' : 'Record'}：${cat.kan || ''}</span></div>`;
+      }).join('');
+      $('#waiScale').innerHTML = (WAJING.strength || []).map((item) => `<i>${item.level}${lang === 'zh' ? '应' : ''}</i>`).join('');
+
+      const text = (r.raw || '').toLowerCase();
+      const scored = LEI.map((cat) => ({ cat, hit: [...cat.keys, ...(cat.keysEn || [])].filter((key) => text.includes(String(key).toLowerCase())).length }));
+      scored.sort((a, b) => b.hit - a.hit);
+      const chosen = (scored[0] && scored[0].hit > 0) ? scored[0].cat : (LEI.find((cat) => cat.id === 'work') || LEI[0]);
+      if (!chosen) return;
+      const others = scored.filter((item) => item.cat !== chosen).slice(0, 2).map((item) => item.cat);
+
+      $('#leiCopy').textContent = lang === 'zh'
+        ? ((scored[0] && scored[0].hit > 0)
+          ? '按所问字面归入最接近的一类；若归类不合，把它当作邻近的观察角度即可。'
+          : '没有从所问里认出明确门类，先列最近的三类备览；取象仍以实际情境为准。')
+        : 'The question is matched to the nearest category below; if the match feels off, take it as an adjacent angle rather than a verdict.';
+      $('#leiMain').innerHTML = `<h4>${chosen.name}</h4>
+        ${kv(zhKey('所问', 'Ask'), chosen.ask)}
+        ${kv(zhKey('取象', 'Images'), chosen.xiang)}
+        ${kv(zhKey('外应', 'Omens'), chosen.wai)}
+        ${kv(zhKey('判断', 'Judge'), chosen.judge)}`;
+      $('#leiMore').textContent = `${lang === 'zh' ? '另可参看' : 'Also'}: ` + others.map((cat) => `${cat.name}（${cat.ask}）`).join(' · ');
+
+      $('#sourceNote').textContent = t('sourceNote');
+      block.hidden = false;
     }
 
     function generate() {
